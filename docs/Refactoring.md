@@ -42,6 +42,8 @@ We also know the column to application mappings:
 | E | 5565 |
 
 Armed with this information, we can write a program to generate a script from the spreadsheet.  We're going to use [Apache POI](http://poi.apache.org/) to read the spreadsheet.  It's not important that you know how POI works for this exercise.
+
+Unfortunately, in our haste to get this finished, we wrote a horrible horrible piece of code.  You can see the horrible code in `src/main/java/exercises/refactoring/AwfulScriptGenerator`. Now it's time to clean it up...
  
 ## Exercises
 
