@@ -25,7 +25,7 @@ This exercise grew out of a real world task at a client.  We were migrating appl
 
 Our product owner created a spreadsheet containing information about which user should have access to which application. To migrate the applications, we need to read the spreadsheet and generate an SQL script for inserting authorizations into our new system. The spreadsheet looks like this:
 
-![user spreadsheet](UserSpreadsheet.png)
+![user spreadsheet](images/UserSpreadsheet.png)
 
 As you can see, the spreadsheet isn't completely consistent.  However, we did notice the following:
 
