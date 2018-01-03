@@ -4,10 +4,9 @@
   <artifactId>practical-functional-java</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <properties>
-    <maven.compiler.source>8</maven.compiler.source>
-    <maven.compiler.target>8</maven.compiler.target>
-    <maven.compiler.testTarget>8</maven.compiler.testTarget>
-    <maven.compiler.testSource>8</maven.compiler.testSource>
+    <java.version>8</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
     <poi.version>3.17</poi.version>
   </properties>
 

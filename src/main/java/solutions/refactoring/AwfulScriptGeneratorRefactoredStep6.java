@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,27 +20,26 @@ import utilities.Utils;
  */
 public class AwfulScriptGeneratorRefactoredStep6 implements ScriptGenerator {
 
-    private static Map<Integer, Function<String, String>> columnToApplicationMappings = new HashMap<>();
+    private static BiFunction<String, Integer, String> insertBuilder = (userId, appId) -> 
+         "insert into ApplicationPermission(user_id, application_id) values('"
+        + userId + "', " + appId + ");";
+
+    private static Map<Integer, Function<String, String>> insertBuilderForCells = new HashMap<>();
     
     static {
-        columnToApplicationMappings.put(1, getInsertBuilderForApplication(2237));
-        columnToApplicationMappings.put(2, getInsertBuilderForApplication(4352));
-        columnToApplicationMappings.put(3, getInsertBuilderForApplication(3657));
-        columnToApplicationMappings.put(4, getInsertBuilderForApplication(5565));
+        insertBuilderForCells.put(1, userId -> insertBuilder.apply(userId, 2237));
+        insertBuilderForCells.put(2, userId -> insertBuilder.apply(userId, 4352));
+        insertBuilderForCells.put(3, userId -> insertBuilder.apply(userId, 3657));
+        insertBuilderForCells.put(4, userId -> insertBuilder.apply(userId, 5565));
     };
 
-    private static Function<String, String> getInsertBuilderForApplication(int appId) {
-        return userId -> getInsertStatement(userId, appId);
-    }
+//    Even more concise in Java 9
+//    private static Map<Integer, Function<String, String>> insertBuilderForCells = Map.of(
+//            1,  userId -> insertBuilder.apply(userId, 2237),
+//            2,  userId -> insertBuilder.apply(userId, 4352),
+//            3,  userId -> insertBuilder.apply(userId, 3657),
+//            4,  userId -> insertBuilder.apply(userId, 5565));
     
-    private static String getInsertStatement(String userId, int appId) {
-        return "insert into ApplicationPermission(user_id, application_id) values('"
-                + userId
-                + "', "
-                + appId
-                + ");";
-    }
-
     @Override
     public List<String> generate(Sheet sheet) {
         return Utils.stream(sheet)
@@ -60,7 +60,7 @@ public class AwfulScriptGeneratorRefactoredStep6 implements ScriptGenerator {
     }
 
     private String getInsertStatementForCell(String userId, Cell cell) {
-        return columnToApplicationMappings.get(cell.getColumnIndex()).apply(userId);
+        return insertBuilderForCells.get(cell.getColumnIndex()).apply(userId);
     }
     
     private Optional<Cell> getFirstCell(Row row) {

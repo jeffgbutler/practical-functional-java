@@ -20,6 +20,7 @@ public class ScriptGeneratorTest {
             List<String> lines = generator.generate(sheet);
             assertThat(lines.size()).isEqualTo(44);
             assertThat(lines.get(0)).isEqualTo("insert into ApplicationPermission(user_id, application_id) values('t.wilson', 2237);");
+            assertThat(lines.get(15)).isEqualTo("insert into ApplicationPermission(user_id, application_id) values('p.romero', 3657);");
             assertThat(lines.get(22)).isEqualTo("insert into ApplicationPermission(user_id, application_id) values('b.walton', 4352);");
             assertThat(lines.get(43)).isEqualTo("insert into ApplicationPermission(user_id, application_id) values('e.nash', 5565);");
         }

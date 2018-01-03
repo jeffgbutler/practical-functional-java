@@ -85,8 +85,7 @@ If you get stuck along the way, the solutions for each step are in `src/main/jav
 6. Refinement part 3 - function composition
 
    We are a little bothered by the switch statement, so we're going to fix that.  This step is a bit esoteric - we will use a method composition technique and make a Map of methods for the different values in the switch statement. You may or may not think this makes the code clearer.  We're doing it to demonstrate function composition in Java, but you'll have to decide for yourself if it is appropriate in your own code.
-  
-   - Make a method `static Function<String, String> getInsertBuilderForApplication(int appId)`.  This method should return a function that calls the `getInsertStatement` function passing in the appId.  The new function will accept a single String value - the user id.  THis is an example of function composition in Java where we make a new function that calls another function and passes in some known value.
-   - Make a `static Map<Integer, Function<String, String>> columnToApplicationMappings` that will contain new functions for each of the different columns in a row
-   - Use a static initializer to setup the Map.  For example, `columnToApplicationMappings.put(1, getInsertBuilderForApplication(2237));`
+   - Delete the `getInsertStatement` function.  Make a `static BiFunction<String, Integer, String> insertBuilder` member variable that does the same thing as the old `getInsertStatement` method
+   - Make a `static Map<Integer, Function<String, String>> insertBuilderForCells` that will contain new functions for each of the different columns in a row
+   - Use a static initializer to setup the Map.  For example, `insertBuilderForCells.put(1, userId -> insertBuilder.apply(userId, 2237));`
    - Change the `String getInsertStatementForCell(String, Cell)` method to remove the switch statement and call the functions from the map
