@@ -1,0 +1,151 @@
+<html>
+<head>
+<title>Practical Functional Java</title>
+<link rel="stylesheet" href="reveal.js-3.6.0/css/reveal.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/css/theme/moon.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/zenburn.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Practical Functional Java</h2>
+        <h3>Jeff Butler</h3>
+        <p>github.com/jeffgbutler/practical-functional-java</p>
+      </section>
+
+      <section>
+        <h2>How this Workshop Came to Be</h2>
+        <ul>
+          <li>I finally learned JavaScript</li>
+          <li>Java 8 Study Group</li>
+          <li>"Clean Code" Book Clubs</li>
+          <li>MyBatis Dynamic SQL</li>
+          <li>These experiences have changed the way I think about coding.</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h2>Benefits of Functional Programming</h2>
+        <ul>
+          <li>Solves all your concurrency problems!</li>
+          <li>The solution to Moore's Law slowing down!</li>
+          <li>Super Trendy! Big Money!</li>
+          <li>Retro/Vintage/Hipster Programming - Lisp is Cool Again!</li>
+        </ul>
+        <p align="left">But seriously, how many people in this room...</p>
+        <ul>
+          <li>have major concurrency problems?</li>
+          <li>have a Moore's Law problem?</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h1>Why Are You Here?</h1>
+      </section>
+      
+      <section>
+        <h2>I want to be a functional programmer!</h2>
+        <p class="fragment fade-in">Wrong answer</p>
+      </section>
+
+      <section>
+        <h2>I want to be a better programmer!</h2>
+      </section>
+
+      <section>
+        <h3>This is why we're here...</h3>
+        <img src="CleanCode.jpg"/>
+      </section>
+      
+      <section>
+        <h3>What is Functional Programming?</h3>
+        <ul>
+          <li class="fragment">Immutability?</li>
+          <li class="fragment">Pure functions?</li>
+          <li class="fragment">Functions as first class citizens?</li>
+          <li class="fragment">Lambdas?</li>
+          <li class="fragment">Closures?</li>
+          <li class="fragment">Recursion with Tail Call Optimization?</li>
+          <li class="fragment">Lazy streams?</li>
+          <li class="fragment">Declarative vs. Imperative?</li>
+          <li class="fragment">Monads (Haskell)?</li>
+          <li class="fragment">Code as Data (Lisp)?</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1>Argh!</h1>
+        <p>No one can define it!</p>
+        <p class="fragment">Except maybe Uncle Bob</p>
+      </section>
+      
+      <section>
+        <h1>Immutability</h1>
+        <blockquote>Functional programming imposes discipline on assignment.</blockquote>
+        <p>Uncle Bob in "Clean Architecture", page 23</p>
+        <p>In other words...immutability is the key concept in functional programming.</p>
+      </section>
+        
+      <section>
+        <h2>Manifestations of Immutability</h2>
+        <ul>
+          <li>Immutable Classes</li>
+          <li>Pure Functions</li>
+        </ul>
+        <p>If you can only remember one thing from this workshop, then remember that
+          <u>writing pure functions will radically change, and improve, the way you write code</u>.</p>
+      </section>
+      <section>Immutable Classes</section>
+      <section>Pure Functions</section>
+      <section>
+        Don't Do This!
+        <pre  style="width: 100%;font-size: 0.45em;"><code class="java" style="max-height: 500px"">
+    @Test
+    public void testImpureFunction() {
+        List&lt;ImmutablePerson&gt; allPeople = new ArrayList<>();
+        addTheFlintstones(allPeople);
+        addTheRubbles(allPeople);
+        
+        assertThat(allPeople.size()).isEqualTo(6);
+        assertThat(allPeople.get(1).getFirstName()).isEqualTo("Wilma");
+        assertThat(allPeople.get(4).getFirstName()).isEqualTo("Betty");
+    }
+
+    private void addTheFlintstones(List&lt;ImmutablePerson&gt; people) {
+        people.add(ImmutablePerson.of("Fred", "Flintstone"));
+        people.add(ImmutablePerson.of("Wilma", "Flintstone"));
+        people.add(ImmutablePerson.of("Pebbles", "Flintstone"));
+    }
+
+    private void addTheRubbles(List&lt;ImmutablePerson&gt; people) {
+        people.add(ImmutablePerson.of("Barney", "Rubble"));
+        people.add(ImmutablePerson.of("Betty", "Rubble"));
+        people.add(ImmutablePerson.of("Bamm Bamm", "Rubble"));
+    }
+        </code></pre>
+      </section>
+    </div>
+  </div>
+
+  <script src="reveal.js-3.6.0/lib/js/head.min.js"></script>
+  <script src="reveal.js-3.6.0/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+        dependencies: [
+            // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+            { src: 'reveal.js-3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+            // Syntax highlight for <code> elements
+            { src: 'reveal.js-3.6.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+            // Zoom in and out with Alt+click
+            { src: 'reveal.js-3.6.0/plugin/zoom-js/zoom.js', async: true },
+
+            // Speaker notes
+            { src: 'reveal.js-3.6.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+  </script>
+</body>
+</html>
