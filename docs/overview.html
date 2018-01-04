@@ -45,11 +45,11 @@
           <li>Firehose review of Streams/Optionals/etc.</li>
           <li>Two multi-step guided exercises</li>
         </ul>
-        <h3>Practical!</h3>
+        <h3>Focus on Practical!</h3>
       </section>
 
       <section>
-        <h2>Functional Programming...</h2>
+        <h2>Functional Programming Hype</h2>
         <ul>
           <li>Solves all your concurrency problems!</li>
           <li>The solution to Moore's Law slowing down!</li>
@@ -90,6 +90,8 @@
           <li>TDD</li>
           <li>SOLID Principles</li>
         </ul>
+        <h4></h4>
+        <h4 class="fragment fade-in">Functional practices urge us towards clean code</h4>
       </section>
       
       <section>
@@ -122,20 +124,10 @@
       </section>
       
       <section>
-        <h2>Manifestations of Immutability</h2>
-        <ul>
-          <li>Immutable Classes</li>
-          <li>Pure Functions</li>
-        </ul>
-        <p>If you can only remember one thing from this workshop, then remember that
-          <u>writing pure functions will radically change, and improve, the way you write code</u>.</p>
-      </section>
-      
-      <section>
         <h2>"Functional" Java</h2>
         <ul>
-          <li>Java is OO and we love changing the state of objects.</li>
-          <li>Going immutable and pure in Java takes discipline</li>
+          <li>Java is OO and we love changing the state of objects</li>
+          <li>Going immutable in Java takes discipline</li>
           <li>Java 8 added some important things...
             <ul>
               <li>Functional Interfaces</li>
@@ -146,8 +138,184 @@
         </ul>
       </section>
       
+      <section>
+        <h2>Manifestations of Immutability</h2>
+        <ul>
+          <li>Immutable Classes</li>
+          <li>Pure Functions</li>
+        </ul>
+        <p>If you can only remember one thing from this workshop, then remember that
+          <u>writing pure functions will radically change, and improve, the way you write code</u>.</p>
+      </section>
       
-      <section>Immutable Classes</section>
+      <section>
+        <h2>Immutable Classes</h2>
+        <ul>
+          <li>No Setters</li>
+          <li>Getters don't return mutable Objects like Lists or Maps</li>
+        </ul>
+      </section>
+      
+      <section>
+        Simple Immutable Object
+        <pre>
+          <code class="java" style="max-height: 550px">
+public final class SimpleImmutableObject {
+    private final Integer id;
+    private final String description;
+    
+    public SimpleImmutableObject(Integer id, String description) {
+        this.id = Objects.requireNonNull(id);
+        this.description = Objects.requireNonNull(description);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+}
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Fluent Builder Pattern - More Flexible
+        <pre>
+          <code class="java" style="max-height: 550px">
+public class ImmutablePerson {
+    private String firstName;
+    private String lastName;
+    
+    private ImmutablePerson(Builder builder) {
+        firstName = Objects.requireNonNull(builder.firstName);
+        lastName = Objects.requireNonNull(builder.lastName);
+    }
+    
+    public String getFirstName() {
+        return firstName;
+    }
+    
+    public static class Builder {
+        private String firstName;
+        private String lastName;
+
+        public Builder withFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder withLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+        
+        public ImmutablePerson build() {
+            return new ImmutablePerson(this);
+        }
+    }
+}
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Fluent Builder Pattern - How to Handle Optionals
+        <pre>
+          <code class="java" style="max-height: 550px">
+public class ImmutablePerson {
+    private Optional&lt;String&gt; middleName;
+    ...
+    
+    private SimpleImmutableObjectWithBuilder(Builder builder) {
+        ....
+        middleName = Optional.ofNullable(builder.middleName);
+    }
+   ...
+   
+    public Optional&lt;String&gt; getMiddleName() {
+        return middleName;
+    }
+    
+    public static class Builder {
+        private String middleName;
+        ...
+
+        public Builder withMiddleName(String middleName) {
+            this.middleName = middleName;
+            return this;
+        }
+        ...
+    }
+}
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Fluent Builder Pattern - How to Handle Lists
+        <pre>
+          <code class="java" style="max-height: 550px">
+public class ImmutablePerson {
+    private List&lt;String&gt; nickNames;
+    ...
+    
+    private SimpleImmutableObjectWithBuilder(Builder builder) {
+        ....
+        nickNames = Objects.requireNonNull(builder.nickNames);
+    }
+   ...
+   
+    public Stream&lt;String&gt; nickNames() {
+        return nickNames.stream();
+    }
+    
+    public static class Builder {
+        private List&lt;String&gt; nickNames = new ArrayList&lt;&gt;();
+        ...
+
+        public Builder withNickName(String nickName) {
+            nickNames.add(nickName);
+            return this;
+        }
+        
+        public Builder withNickNames(List&lt;String&gt; nickNames) {
+            this.nickNames.addAll(nickNames);
+            return this;
+        }
+        ...
+    }
+}
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        How to Make "Mutable" Immutables
+        <pre>
+          <code class="java" style="max-height: 550px">
+public class ImmutablePerson {
+    ...
+    
+    // copy constructor - for the with*** methods
+    private ImmutablePerson(ImmutablePerson other) {
+        firstName = other.firstName;
+        middleName = other.middleName;
+        lastName = other.lastName;
+        nickNames = new ArrayList&lt;&gt;(other.nickNames);
+    }
+    
+    public ImmutablePerson withMiddleName(String middleName) {
+        ImmutablePerson copy = new ImmutablePerson(this);
+        copy.middleName = Optional.of(middleName);
+        return copy;
+    }
+}
+          </code>
+        </pre>
+      </section>
       
       <section>
         <h1>Pure Functions</h1>
@@ -155,9 +323,9 @@
           <li>Produce output based solely on their inputs</li>
           <li>Do not rely on external state</li>
           <li>Do not modify external state</li>
-          <li>Are Easier to reason about</li>
-          <li>Are Easier to test</li>
-          <li>Are Easier to multi-thread</li>
+          <li>Are easier to reason about</li>
+          <li>Are easier to test</li>
+          <li>Are easier to multi-thread</li>
         </ul>
       </section>
       
@@ -210,7 +378,7 @@
     }
 
     private List&lt;ImmutablePerson&gt; getTheRubbles() {
-        List&lt;ImmutablePerson&gt; rubbles = new ArrayList<>();
+        List&lt;ImmutablePerson&gt; rubbles = new ArrayList&lt;&gt;();
         rubbles.add(ImmutablePerson.of("Barney", "Rubble"));
         rubbles.add(ImmutablePerson.of("Betty", "Rubble"));
         return rubbles;
@@ -248,8 +416,9 @@
       </section>
 
       <section>
-        This is hard to explain - and you'll have to take my word on it...
+        <h4>Immutability Summary</h4>
         <blockquote>
+          This is hard to explain - you'll have to take my word on it...
           When you program with immutable objects and pure functions it changes
           the way you think.
         </blockquote>
@@ -573,6 +742,13 @@
       </section>
 
       <section>
+        <h4>Streams Summary</h4>
+        <blockquote>
+          Map/Filter/Collect can replace virtually all loop structures in your code and drive you towards cleaner code.
+        </blockquote>
+      </section>
+
+      <section>
         <h1>Optional Examples</h1>
         <p>All code examples in <code>examples.optional.OptionalTest.java</code></p>
       </section>
@@ -697,6 +873,14 @@
     }
           </code>
         </pre>
+      </section>
+
+      <section>
+        <h4>Optionals Summary</h4>
+        <blockquote>
+          Optionals are a great solution for dealing with nulls.  Optional.map and Optional.filter
+          can replace a whole class of if statements in your code.
+        </blockquote>
       </section>
 
       <section>

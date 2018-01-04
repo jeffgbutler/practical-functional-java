@@ -1,7 +1,7 @@
 # Overview and Instructions
 
-1. [Setup Instructions](Setup.md)
-2. [Overview and Fundamentals](overview.html)
+1. [Overview and Fundamentals](overview.html)
+2. [Setup Instructions](Setup.md)
 3. [XML Renderer Exercise](XmlRenderer.md)
 4. [Refactoring Exercise](Refactoring.md)
    
