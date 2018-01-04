@@ -3,7 +3,8 @@
 <title>Practical Functional Java</title>
 <link rel="stylesheet" href="reveal.js-3.6.0/css/reveal.css">
 <link rel="stylesheet" href="reveal.js-3.6.0/css/theme/moon.css">
-<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/zenburn.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/obsidian.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="reveal">
@@ -12,6 +13,18 @@
         <h2>Practical Functional Java</h2>
         <h3>Jeff Butler</h3>
         <p>github.com/jeffgbutler/practical-functional-java</p>
+      </section>
+
+      <section>
+        <h2>About Me</h2>
+        <ul>
+          <li>Enterprise Architect for DMI in Indianapolis</li>
+          <li>Committer to Apache iBatis/MyBatis since 2005</li>
+          <li>Creator of MyBatis Generator</li>
+          <li>Creator of MyBatis Dynamic SQL</li>
+          <li>Voracious reader, adventurous eater, lawn care enthusiast</li>
+          <li>Desert Island disks include White Stripes, Beck, Nirvana, Jimmie Dale Gilmore, Marty Stuart</li>
+        </ul>
       </section>
 
       <section>
@@ -26,7 +39,17 @@
       </section>
       
       <section>
-        <h2>Benefits of Functional Programming</h2>
+        <h2>Plan for the Workshop</h2>
+        <ul>
+          <li>Some thoughts about Functional Programming</li>
+          <li>Firehose review of Streams/Optionals/etc.</li>
+          <li>Two multi-step guided exercises</li>
+        </ul>
+        <h3>Practical!</h3>
+      </section>
+
+      <section>
+        <h2>Functional Programming...</h2>
         <ul>
           <li>Solves all your concurrency problems!</li>
           <li>The solution to Moore's Law slowing down!</li>
@@ -59,34 +82,45 @@
       </section>
       
       <section>
+        <h3>What is clean code?</h3>
+        <ul>
+          <li>Meaningful Names</li>
+          <li>Small methods</li>
+          <li>Small Classes</li>
+          <li>TDD</li>
+          <li>SOLID Principles</li>
+        </ul>
+      </section>
+      
+      <section>
         <h3>What is Functional Programming?</h3>
         <ul>
-          <li class="fragment">Immutability?</li>
-          <li class="fragment">Pure functions?</li>
-          <li class="fragment">Functions as first class citizens?</li>
-          <li class="fragment">Lambdas?</li>
-          <li class="fragment">Closures?</li>
-          <li class="fragment">Recursion with Tail Call Optimization?</li>
-          <li class="fragment">Lazy streams?</li>
-          <li class="fragment">Declarative vs. Imperative?</li>
-          <li class="fragment">Monads (Haskell)?</li>
-          <li class="fragment">Code as Data (Lisp)?</li>
+          <li>Functions as first class citizens?</li>
+          <li>Pure functions?</li>
+          <li>Lambdas?</li>
+          <li>Closures?</li>
+          <li>Recursion with Tail Call Optimization?</li>
+          <li>Lazy streams?</li>
+          <li>Immutability?</li>
+          <li>Declarative vs. Imperative?</li>
+          <li>Monads (Haskell)?</li>
+          <li>Code as Data (Lisp)?</li>
         </ul>
       </section>
 
       <section>
         <h1>Argh!</h1>
         <p>No one can define it!</p>
-        <p class="fragment">Except maybe Uncle Bob</p>
+        <p class="fragment">Except maybe Uncle Bob...</p>
       </section>
       
       <section>
-        <h1>Immutability</h1>
+        <h1>It's All About Immutability</h1>
         <blockquote>Functional programming imposes discipline on assignment.</blockquote>
         <p>Uncle Bob in "Clean Architecture", page 23</p>
         <p>In other words...immutability is the key concept in functional programming.</p>
       </section>
-        
+      
       <section>
         <h2>Manifestations of Immutability</h2>
         <ul>
@@ -96,34 +130,642 @@
         <p>If you can only remember one thing from this workshop, then remember that
           <u>writing pure functions will radically change, and improve, the way you write code</u>.</p>
       </section>
+      
+      <section>
+        <h2>"Functional" Java</h2>
+        <ul>
+          <li>Java is OO and we love changing the state of objects.</li>
+          <li>Going immutable and pure in Java takes discipline</li>
+          <li>Java 8 added some important things...
+            <ul>
+              <li>Functional Interfaces</li>
+              <li>Lambda expressions</li>
+              <li>Lazy Streams (a declarative paradigm)</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+      
+      
       <section>Immutable Classes</section>
-      <section>Pure Functions</section>
+      
+      <section>
+        <h1>Pure Functions</h1>
+        <ul>
+          <li>Produce output based solely on their inputs</li>
+          <li>Do not rely on external state</li>
+          <li>Do not modify external state</li>
+          <li>Are Easier to reason about</li>
+          <li>Are Easier to test</li>
+          <li>Are Easier to multi-thread</li>
+        </ul>
+      </section>
+      
       <section>
         Don't Do This!
-        <pre  style="width: 100%;font-size: 0.45em;"><code class="java" style="max-height: 500px"">
+        <pre>
+          <code class="java" style="max-height: 500px">
     @Test
     public void testImpureFunction() {
-        List&lt;ImmutablePerson&gt; allPeople = new ArrayList<>();
+        List&lt;ImmutablePerson&gt; allPeople = new ArrayList&lt;&gt;();
         addTheFlintstones(allPeople);
         addTheRubbles(allPeople);
         
-        assertThat(allPeople.size()).isEqualTo(6);
+        assertThat(allPeople.size()).isEqualTo(4);
         assertThat(allPeople.get(1).getFirstName()).isEqualTo("Wilma");
-        assertThat(allPeople.get(4).getFirstName()).isEqualTo("Betty");
+        assertThat(allPeople.get(3).getFirstName()).isEqualTo("Betty");
     }
 
     private void addTheFlintstones(List&lt;ImmutablePerson&gt; people) {
         people.add(ImmutablePerson.of("Fred", "Flintstone"));
         people.add(ImmutablePerson.of("Wilma", "Flintstone"));
-        people.add(ImmutablePerson.of("Pebbles", "Flintstone"));
     }
 
     private void addTheRubbles(List&lt;ImmutablePerson&gt; people) {
         people.add(ImmutablePerson.of("Barney", "Rubble"));
         people.add(ImmutablePerson.of("Betty", "Rubble"));
-        people.add(ImmutablePerson.of("Bamm Bamm", "Rubble"));
     }
-        </code></pre>
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Do This!
+        <pre>
+          <code class="java" style="max-height: 550px">
+    @Test
+    public void testPureFunction() {
+        List&lt;ImmutablePerson&gt; allPeople = new ArrayList&lt;&gt;();
+        allPeople.addAll(getTheFlintstones());
+        allPeople.addAll(getTheRubbles());
+        
+        assertThat(allPeople.size()).isEqualTo(4);
+    }
+    
+    private List&lt;ImmutablePerson&gt; getTheFlintstones() {
+        List&lt;ImmutablePerson&gt; flintstones = new ArrayList&lt;&gt;();
+        flintstones.add(ImmutablePerson.of("Fred", "Flintstone"));
+        flintstones.add(ImmutablePerson.of("Wilma", "Flintstone"));
+        return flintstones;
+    }
+
+    private List&lt;ImmutablePerson&gt; getTheRubbles() {
+        List&lt;ImmutablePerson&gt; rubbles = new ArrayList<>();
+        rubbles.add(ImmutablePerson.of("Barney", "Rubble"));
+        rubbles.add(ImmutablePerson.of("Betty", "Rubble"));
+        return rubbles;
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        Even Better - Do This!
+        <pre>
+          <code class="java" style="max-height: 500px">
+    @Test
+    public void testPureFunction() {
+        List&lt;ImmutablePerson&gt; allPeople = Stream.of(getTheFlintstones(), getTheRubbles())
+                .flatMap(Function.identity())
+                .collect(Collectors.toList());
+        
+        assertThat(allPeople.size()).isEqualTo(4);
+        assertThat(allPeople.get(1).getFirstName()).isEqualTo("Wilma");
+        assertThat(allPeople.get(3).getFirstName()).isEqualTo("Betty");
+    }
+    
+    private Stream&lt;ImmutablePerson&gt; getTheFlintstones() {
+        return Stream.of(ImmutablePerson.of("Fred", "Flintstone"),
+                ImmutablePerson.of("Wilma", "Flintstone"));
+    }
+
+    private Stream&lt;ImmutablePerson&gt; getTheRubbles() {
+        return Stream.of(ImmutablePerson.of("Barney", "Rubble"),
+                ImmutablePerson.of("Betty", "Rubble"));
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        This is hard to explain - and you'll have to take my word on it...
+        <blockquote>
+          When you program with immutable objects and pure functions it changes
+          the way you think.
+        </blockquote>
+      </section>
+      
+      <section>
+        <h1>Stream Examples</h1>
+        <p>All code examples in <code>examples.streams.StreamTest.java</code></p>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // Streams can be created from a list
+    private Stream&lt;ImmutablePerson&gt; getTheFlintstones() {
+        List&lt;ImmutablePerson&gt; people = new ArrayList&lt;&gt;();
+        
+        people.add(ImmutablePerson.of("Fred", "Flintstone"));
+        people.add(ImmutablePerson.of("Wilma", "Flintstone"));
+        people.add(ImmutablePerson.of("Pebbles", "Flintstone"));
+
+        return people.stream();
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // Streams can be created directly with the "of" method
+    private Stream&lt;ImmutablePerson&gt; getTheRubbles() {
+        return Stream.of(ImmutablePerson.of("Barney", "Rubble"),
+                ImmutablePerson.of("Betty", "Rubble"),
+                ImmutablePerson.of("Bamm Bamm", "Rubble"));
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the "collect" method can be used to turn a stream into a List
+    @Test
+    public void testCollect() {
+        List&lt;ImmutablePerson&gt; flintstones = getTheFlintstones()
+                .collect(Collectors.toList());
+        
+        assertThat(flintstones.size()).isEqualTo(3);
+        assertThat(flintstones.get(1).getFirstName()).isEqualTo("Wilma");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" data-noescape>
+    // the "filter" method is used to create a new stream containing only
+    // items that match the filter
+    @Test
+    public void testFilterLambda1() {
+        List&lt;ImmutablePerson&gt; flintstones = getTheFlintstones()
+              .filter(<mark>p -> p.getFirstName().equals("Fred") || p.getFirstName().equals("Wilma")</mark>)
+              .collect(Collectors.toList());
+        
+        assertThat(flintstones.size()).isEqualTo(2);
+        assertThat(flintstones.get(1).getFirstName()).isEqualTo("Wilma");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" data-noescape>
+    // the "filter" method is used to create a new stream containing only
+    // items that match the filter
+    @Test
+    public void testFilterWithLambda2() {
+        List&lt;ImmutablePerson&gt; flintstones = getTheFlintstones()
+                .filter(<mark>p -> {</mark>
+                    <mark>return p.getFirstName().equals("Fred") || p.getFirstName().equals("Wilma");</mark>
+                <mark>}</mark>)
+                .collect(Collectors.toList());
+        
+        assertThat(flintstones.size()).isEqualTo(2);
+        assertThat(flintstones.get(1).getFirstName()).isEqualTo("Wilma");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" data-noescape>
+    // the "filter" method is used to create a new stream containing only
+    // items that match the filter
+    @Test
+    public void testFilterWithMethodReference() {
+        List&lt;ImmutablePerson&gt; flintstones = getTheFlintstones()
+                .filter(<mark>this::isFredOrWilma</mark>)
+                .collect(Collectors.toList());
+        
+        assertThat(flintstones.size()).isEqualTo(2);
+        assertThat(flintstones.get(1).getFirstName()).isEqualTo("Wilma");
+    }
+    
+    private boolean isFredOrWilma(ImmutablePerson p) {
+        return p.getFirstName().equals("Fred") || p.getFirstName().equals("Wilma");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" style="max-height: 450px">
+    // the "map" method is used to transform a stream from one type to another
+    @Test
+    public void getMap() {
+        String directoryListing = getTheFlintstones()
+                .map(this::personAsString)  // Stream&lt;ImmutablePerson&gt; -> Stream&lt;String&gt;
+                .collect(Collectors.joining("\n"));
+        
+        String expected = "Flintstone, Fred\n"
+                + "Flintstone, Wilma\n"
+                + "Flintstone, Pebbles";
+        
+        assertThat(directoryListing).isEqualTo(expected);
+    }
+    
+    private String personAsString(ImmutablePerson person) {
+        return person.getLastName() + ", " + person.getFirstName();
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the "sorted" method is used to reorder a Stream
+    // can supply a lambda for the sort function, or use
+    // the natural order of a comparable
+    @Test
+    public void testSorted() {
+        String directoryListing = getTheFlintstones()
+                .sorted((p1, p2) -> p1.getFirstName().compareTo(p2.getFirstName()))
+                .map(this::personAsString)
+                .collect(Collectors.joining("\n"));
+        
+        String expected = "Flintstone, Fred\n"
+                + "Flintstone, Pebbles\n"
+                + "Flintstone, Wilma";
+        
+        assertThat(directoryListing).isEqualTo(expected);
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // stream methods can be chained together
+    @Test
+    public void testStreamMethodChaining() {
+        String directoryListing = getTheFlintstones()
+                .filter(this::isFredOrWilma)
+                .sorted((p1, p2) -> p1.getFirstName().compareTo(p2.getFirstName()))
+                .map(this::personAsString)
+                .collect(Collectors.joining("\n"));
+        
+        String expected = "Flintstone, Fred\n"
+                + "Flintstone, Wilma";
+        
+        assertThat(directoryListing).isEqualTo(expected);
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the skip function can be used to skip over items in a stream
+    @Test
+    public void testSkip() {
+        String directoryListing = getTheFlintstones()
+                .skip(1)
+                .filter(this::isFredOrWilma)
+                .sorted((p1, p2) -> p1.getFirstName().compareTo(p2.getFirstName()))
+                .map(this::personAsString)
+                .collect(Collectors.joining("\n"));
+        
+        String expected = "Flintstone, Wilma";
+        
+        assertThat(directoryListing).isEqualTo(expected);
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" style="max-height: 500px">
+    // flatMap is used to apply a many to one mapping 
+    @Test
+    public void testFlatMap1() {
+        ImmutablePerson fred = ImmutablePerson.of("Fred", "Flintstone");
+        fred = fred.withNickNames("The Fredmeister", "Yabba Dabba Dude");
+        
+        ImmutablePerson barney = ImmutablePerson.of("Barney",  "Rubble");
+        barney = barney.withNickNames("The Barnster", "Little Buddy");
+
+        String expectedAllNickNames = "The Fredmeister,Yabba Dabba Dude,"
+                + "The Barnster,Little Buddy";
+        
+        // (not so good) map each ImmutablePerson to a Stream&lt;String&gt; of nicknames,
+        // then use flatMap for flatten
+        String allNickNames = Stream.of(fred, barney)  // Stream&lt;ImmutablePerson&gt;
+                .map(ImmutablePerson::nickNames)  // Stream&lt;Stream&lt;String&gt;&gt;
+                .flatMap(Function.identity()) // Stream&lt;String&gt;
+                .collect(Collectors.joining(","));
+        
+        assertThat(allNickNames).isEqualTo(expectedAllNickNames);
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" style="max-height: 500px">
+    // flatMap is used to apply a many to one mapping 
+    @Test
+    public void testFlatMap2() {
+        ImmutablePerson fred = ImmutablePerson.of("Fred", "Flintstone");
+        fred = fred.withNickNames("The Fredmeister", "Yabba Dabba Dude");
+        
+        ImmutablePerson barney = ImmutablePerson.of("Barney",  "Rubble");
+        barney = barney.withNickNames("The Barnster", "Little Buddy");
+
+        String expectedAllNickNames = "The Fredmeister,Yabba Dabba Dude,"
+                + "The Barnster,Little Buddy";
+        
+        // (better) use flatMap instead of map with the mapping function
+        String allNickNames = Stream.of(fred, barney)  // Stream&lt;ImmutablePerson&gt;
+                .flatMap(ImmutablePerson::nickNames)  // Stream&lt;String&gt;
+                .collect(Collectors.joining(","));
+        
+        assertThat(allNickNames).isEqualTo(expectedAllNickNames);
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // streams can be concatenated with the concat method
+    @Test
+    public void testConcatenationWithConcat() {
+        // concat is OK to use when concatenating two streams, but can cause problems
+        // with multiple streams and recursion.  There is a warning in the JavaDocs
+        // about being careful with concat.  If you have multiple streams to concatenate,
+        // then it is better to use the flatMap technique below.
+        List&lt;ImmutablePerson&gt; allPeople = Stream.concat(getTheFlintstones(), getTheRubbles())
+                .collect(Collectors.toList());
+
+        assertThat(allPeople.size()).isEqualTo(6);
+        assertThat(allPeople.get(1).getFirstName()).isEqualTo("Wilma");
+        assertThat(allPeople.get(4).getFirstName()).isEqualTo("Betty");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // streams can also be concatenated with flatMap
+    @Test
+    public void testConcatenationWithFlatMap() {
+        List&lt;ImmutablePerson&gt; allPeople = Stream.of(getTheFlintstones(), getTheRubbles())
+                .flatMap(Function.identity())
+                .collect(Collectors.toList());
+
+        assertThat(allPeople.size()).isEqualTo(6);
+        assertThat(allPeople.get(1).getFirstName()).isEqualTo("Wilma");
+        assertThat(allPeople.get(4).getFirstName()).isEqualTo("Betty");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" style="max-height: 450px">
+    // the Stream.forEach method is for side effects.  We don't want side effects,
+    // so don't do this
+    @Test
+    public void testForEach() {
+        StringBuilder sb = new StringBuilder();
+        
+        getTheFlintstones().forEach(p -> {
+            sb.append(personAsString(p));
+            sb.append("\n"); // no good way to tell if we are at the end of the stream
+        });
+
+        String expected = "Flintstone, Fred\n"
+                + "Flintstone, Wilma\n"
+                + "Flintstone, Pebbles\n"; // note the extra \n at the end
+        
+        assertThat(sb.toString()).isEqualTo(expected);
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <h1>Optional Examples</h1>
+        <p>All code examples in <code>examples.optional.OptionalTest.java</code></p>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the map method is used to transform an optional if it exists
+    @Test
+    public void testOptionalMap() {
+        Optional&lt;String&gt; name = Optional.of("Fred");
+        
+        Optional&lt;String&gt; upperName = name.map(String::toUpperCase);
+        
+        assertThat(upperName.isPresent()).isTrue();
+        assertThat(upperName.get()).isEqualTo("FRED");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the map method works on an empty Optional - just returns an empty Optional
+    @Test
+    public void testOptionalMapOnEmpty() {
+        Optional&lt;String&gt; emptyName = Optional.empty();  // or Optional.ofNullable(null);
+        
+        Optional&lt;String&gt; emptyUpperName = emptyName.map(String::toUpperCase);
+        
+        assertThat(emptyUpperName.isPresent()).isFalse();
+        
+        try {
+            assertThat(emptyUpperName.get()).isEqualTo("FRED");
+            fail("found a value on an empty Optional");
+        } catch (NoSuchElementException e) {
+            // ignore
+        }
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the filter method is used to test the value of an optional if present
+    @Test
+    public void testOptionalFilter() {
+        Optional&lt;String&gt; name = Optional.of("Fred");
+        
+        Optional&lt;String&gt; fred = name.filter(s -> s.equals("Fred"));
+        Optional&lt;String&gt; notFred = name.filter(s -> !s.equals("Fred"));
+        
+        assertThat(fred.isPresent()).isTrue();
+        assertThat(notFred.isPresent()).isFalse();
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // just like streams, optional methods can be chained
+    @Test
+    public void testOptionalMethodChaining() {
+        Optional&lt;String&gt; name = Optional.of("Fred");
+        
+        Optional&lt;String&gt; upperFred = name.filter(s -> s.equals("Fred"))
+                .map(String::toUpperCase);
+                
+        assertThat(upperFred.isPresent()).isTrue();
+        assertThat(upperFred.get()).isEqualTo("FRED");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" style="max-height: 450px">
+    // orElse is used to supply a default value if the optional is empty
+    @Test
+    public void testOptionalOrElse() {
+        Optional&lt;String&gt; fred = Optional.of("Fred");
+        
+        String upperFred = fred.filter(s -> s.equals("Fred"))
+                .map(String::toUpperCase)
+                .orElse("Unknown");
+                
+        assertThat(upperFred).isEqualTo("FRED");
+
+        Optional&lt;String&gt; barney = Optional.of("Barney");
+        
+        upperFred = barney.filter(s -> s.equals("Fred"))
+                .map(String::toUpperCase)
+                .orElse("Unknown");
+                
+        assertThat(upperFred).isEqualTo("Unknown");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the Optional.ifPresent method is for side effects.
+    // We don't want side effects, so don't do this
+    @Test
+    public void testOptionalIfPresent() {
+        Optional&lt;String&gt; name = Optional.of("Fred");
+
+        StringBuilder sb = new StringBuilder();
+        name.ifPresent(s -> {
+            sb.append(s.toUpperCase());
+        });
+
+        assertThat(sb.toString()).isEqualTo("FRED");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <h1>Function Composition</h1>
+        <p>All code examples in <code>examples.composition.FunctionCompositionTest.java</code></p>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // create a basic concatenation function
+    private BiFunction&lt;String, String, String&gt; concat = (a, b) -> a + " " + b;
+    
+    // create a new function that calls the concatenation function, but
+    // provides the first parameter as a constant
+    private Function&lt;String, String&gt; hello = a -> concat.apply("Hello", a);
+
+    @Test
+    public void testHello() {
+        String phrase = hello.apply("Fred");
+        
+        assertThat(phrase).isEqualTo("Hello Fred");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" style="max-height: 450px">
+    // create a basic concatenation function
+    private BiFunction&lt;String, String, String&gt; concat = (a, b) -> a + " " + b;
+    
+    // create a new function that calls the concatenation function, but
+    // provides the first parameter as a constant
+    private Function&lt;String, String&gt; hello = a -> concat.apply("Hello", a);
+
+    @Test
+    public void testHelloInStream() {
+        String answer = Stream.of(ImmutablePerson.of("Fred", "Flintstone"),
+                                  ImmutablePerson.of("Barney", "Rubble"))
+                .map(ImmutablePerson::getFirstName)
+                .map(hello)
+                .collect(Collectors.joining(", "));
+
+        assertThat(answer).isEqualTo("Hello Fred, Hello Barney");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <h3>Suggestions for converting to functional style...</h3>
+        <ul>
+          <li>Never write another setter method</li>
+          <li>Never write another loop - use Streams</li>
+          <li>Never pass nulls around or do null checks - use Optionals</li>
+          <li>Write pure methods</li>
+          <li>Prefer method references - this will force you to write smaller functions</li> 
+        </ul>
+      </section>
+      
+      <section>
+        <h1>Time to Code!</h1>
+        <p>Two multi-step exercises...</p>
+        <ul>
+          <li>Create an XML Renderer</li>
+          <li>Refactor a looping mess</li>
+        </ul>
       </section>
     </div>
   </div>
@@ -132,6 +774,7 @@
   <script src="reveal.js-3.6.0/js/reveal.js"></script>
   <script>
     Reveal.initialize({
+        slideNumber: 'c/t',
         dependencies: [
             // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
             { src: 'reveal.js-3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },

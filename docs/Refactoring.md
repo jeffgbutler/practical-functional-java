@@ -1,6 +1,6 @@
 # Refactoring Exercise
 
-The goal of the exercise is to take a poorly written piece of code and refactor it into something cleaner and more functional.  When refactoring it is sometimes hard to know when your are finished.  But for this exercise, we have these specific goals:
+The goal of the exercise is to take a poorly written piece of code and refactor it into something cleaner and more functional.  When refactoring it is sometimes hard to know when you are finished.  But for this exercise, we have these specific goals:
 
 1. No nested control structures - actually, no control structures at all
 2. Small pure functions
@@ -20,7 +20,7 @@ We suggest the following steps when undertaking a refactoring of this type:
 This exercise grew out of a real world task at a client.  We were migrating applications to a new system.  The new system had a different authorization structure than the old system.  The new system has a very simple authorization schema...there is a table `ApplicationPermission` that has rows containing user ids and application numbers.  If a row exists, then the user has permission.  For example, if we want user `j.doe` to have access to application `36`, then we write an SQL statement like this:
 
 ```sql
-   insert into ApplicationPermission(user_id, application_id) values('j.doe', 36)
+insert into ApplicationPermission(user_id, application_id) values('j.doe', 36)
 ``` 
 
 Our product owner created a spreadsheet containing information about which user should have access to which application. To migrate the applications, we need to read the spreadsheet and generate an SQL script for inserting authorizations into our new system. The spreadsheet looks like this:

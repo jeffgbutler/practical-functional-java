@@ -93,7 +93,7 @@ public class StreamTest {
     @Test
     public void getMap() {
         String directoryListing = getTheFlintstones()
-                .map(this::personAsString)  // changes Stream<Person> to Stream<String>
+                .map(this::personAsString)  // Stream<ImmutablePerson> -> Stream<String>
                 .collect(Collectors.joining("\n"));
         
         String expected = "Flintstone, Fred\n"
@@ -108,11 +108,13 @@ public class StreamTest {
     }
 
     // the "sorted" method is used to reorder a Stream
+    // can supply a lambda for the sort function, or use
+    // the natural order of a comparable
     @Test
     public void testSorted() {
         String directoryListing = getTheFlintstones()
                 .sorted((p1, p2) -> p1.getFirstName().compareTo(p2.getFirstName()))
-                .map(this::personAsString)  // changes Stream<Person> to Stream<String>
+                .map(this::personAsString)
                 .collect(Collectors.joining("\n"));
         
         String expected = "Flintstone, Fred\n"
@@ -128,7 +130,7 @@ public class StreamTest {
         String directoryListing = getTheFlintstones()
                 .filter(this::isFredOrWilma)
                 .sorted((p1, p2) -> p1.getFirstName().compareTo(p2.getFirstName()))
-                .map(this::personAsString)  // changes Stream<Person> to Stream<String>
+                .map(this::personAsString)
                 .collect(Collectors.joining("\n"));
         
         String expected = "Flintstone, Fred\n"
@@ -144,7 +146,7 @@ public class StreamTest {
                 .skip(1)
                 .filter(this::isFredOrWilma)
                 .sorted((p1, p2) -> p1.getFirstName().compareTo(p2.getFirstName()))
-                .map(this::personAsString)  // changes Stream<Person> to Stream<String>
+                .map(this::personAsString)
                 .collect(Collectors.joining("\n"));
         
         String expected = "Flintstone, Wilma";
@@ -154,37 +156,53 @@ public class StreamTest {
     
     // flatMap is used to apply a many to one mapping 
     @Test
-    public void testFlatMap() {
+    public void testFlatMap1() {
         ImmutablePerson fred = ImmutablePerson.of("Fred", "Flintstone");
         fred = fred.withNickNames("The Fredmeister", "Yabba Dabba Dude");
         
         ImmutablePerson barney = ImmutablePerson.of("Barney",  "Rubble");
         barney = barney.withNickNames("The Barnster", "Little Buddy");
 
-        String expectedAllNickNames = "The Fredmeister,Yabba Dabba Dude,The Barnster,Little Buddy";
+        String expectedAllNickNames = "The Fredmeister,Yabba Dabba Dude,"
+                + "The Barnster,Little Buddy";
         
-        // (not so good) map each Person to a Stream<String> of nicknames, then use flatMap for flatten
-        String allNickNames = Stream.of(fred, barney)  // Stream<Person>
+        // (not so good) map each ImmutablePerson to a Stream<String> of nicknames,
+        // then use flatMap for flatten
+        String allNickNames = Stream.of(fred, barney)  // Stream<ImmutablePerson>
                 .map(ImmutablePerson::nickNames)  // Stream<Stream<String>>
                 .flatMap(Function.identity()) // Stream<String>
                 .collect(Collectors.joining(","));
         
         assertThat(allNickNames).isEqualTo(expectedAllNickNames);
+    }
+
+    // flatMap is used to apply a many to one mapping 
+    @Test
+    public void testFlatMap2() {
+        ImmutablePerson fred = ImmutablePerson.of("Fred", "Flintstone");
+        fred = fred.withNickNames("The Fredmeister", "Yabba Dabba Dude");
+        
+        ImmutablePerson barney = ImmutablePerson.of("Barney",  "Rubble");
+        barney = barney.withNickNames("The Barnster", "Little Buddy");
+
+        String expectedAllNickNames = "The Fredmeister,Yabba Dabba Dude,"
+                + "The Barnster,Little Buddy";
         
         // (better) use flatMap instead of map with the mapping function
-        allNickNames = Stream.of(fred, barney)  // Stream<Person>
+        String allNickNames = Stream.of(fred, barney)  // Stream<ImmutablePerson>
                 .flatMap(ImmutablePerson::nickNames)  // Stream<String>
                 .collect(Collectors.joining(","));
         
         assertThat(allNickNames).isEqualTo(expectedAllNickNames);
     }
 
-    // streams can be contatenated with the concat method
+    // streams can be concatenated with the concat method
     @Test
     public void testConcatenationWithConcat() {
-        // concat is OK to use when concatenating two streams, but can cause problems with multiple streams
-        // and recursion.  There is a warning in the JavaDocs about being careful with concat.  If you
-        // have multiple streams to concatenate, then it is better to use the flatMap technique below.
+        // concat is OK to use when concatenating two streams, but can cause problems
+        // with multiple streams and recursion.  There is a warning in the JavaDocs
+        // about being careful with concat.  If you have multiple streams to concatenate,
+        // then it is better to use the flatMap technique below.
         List<ImmutablePerson> allPeople = Stream.concat(getTheFlintstones(), getTheRubbles())
                 .collect(Collectors.toList());
 
@@ -205,7 +223,8 @@ public class StreamTest {
         assertThat(allPeople.get(4).getFirstName()).isEqualTo("Betty");
     }
 
-    // the Stream.forEach method is for side effects.  We don't want side effects, so don't do this
+    // the Stream.forEach method is for side effects.  We don't want side effects,
+    // so don't do this
     @Test
     public void testForEach() {
         StringBuilder sb = new StringBuilder();

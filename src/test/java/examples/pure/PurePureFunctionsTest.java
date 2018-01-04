@@ -19,20 +19,18 @@ public class PurePureFunctionsTest {
                 .flatMap(Function.identity())
                 .collect(Collectors.toList());
         
-        assertThat(allPeople.size()).isEqualTo(6);
+        assertThat(allPeople.size()).isEqualTo(4);
         assertThat(allPeople.get(1).getFirstName()).isEqualTo("Wilma");
-        assertThat(allPeople.get(4).getFirstName()).isEqualTo("Betty");
+        assertThat(allPeople.get(3).getFirstName()).isEqualTo("Betty");
     }
     
     private Stream<ImmutablePerson> getTheFlintstones() {
         return Stream.of(ImmutablePerson.of("Fred", "Flintstone"),
-                ImmutablePerson.of("Wilma", "Flintstone"),
-                ImmutablePerson.of("Pebbles", "Flintstone"));
+                ImmutablePerson.of("Wilma", "Flintstone"));
     }
 
     private Stream<ImmutablePerson> getTheRubbles() {
         return Stream.of(ImmutablePerson.of("Barney", "Rubble"),
-                ImmutablePerson.of("Betty", "Rubble"),
-                ImmutablePerson.of("Bamm Bamm", "Rubble"));
+                ImmutablePerson.of("Betty", "Rubble"));
     }
 }

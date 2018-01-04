@@ -1,4 +1,4 @@
-package examples.function.composition;
+package examples.composition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,7 +13,11 @@ import examples.immutable.ImmutablePerson;
 
 public class FunctionCompositionTest {
 
+    // create a basic concatenation function
     private BiFunction<String, String, String> concat = (a, b) -> a + " " + b;
+    
+    // create a new function that calls the concatenation function, but
+    // provides the first parameter as a constant
     private Function<String, String> hello = a -> concat.apply("Hello", a);
 
     @Test

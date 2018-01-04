@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class OptionalTest {
 
-    // the map method is used to transform an optional if it exists, else returns empty
+    // the map method is used to transform an optional if it exists
     @Test
     public void testOptionalMap() {
         Optional<String> name = Optional.of("Fred");
@@ -19,7 +19,11 @@ public class OptionalTest {
         
         assertThat(upperName.isPresent()).isTrue();
         assertThat(upperName.get()).isEqualTo("FRED");
-        
+    }
+
+    // the map method works on an empty Optional - just returns an empty Optional
+    @Test
+    public void testOptionalMapOnEmpty() {
         Optional<String> emptyName = Optional.empty();  // or Optional.ofNullable(null);
         
         Optional<String> emptyUpperName = emptyName.map(String::toUpperCase);
@@ -33,7 +37,7 @@ public class OptionalTest {
             // ignore
         }
     }
-
+    
     // the filter method is used to test the value of an optional if present
     @Test
     public void testOptionalFilter() {
@@ -78,7 +82,8 @@ public class OptionalTest {
         assertThat(upperFred).isEqualTo("Unknown");
     }
     
-    // the Optional.ifPresent method is for side effects.  We don't want side effects, so don't do this
+    // the Optional.ifPresent method is for side effects.
+    // We don't want side effects, so don't do this
     @Test
     public void testOptionalIfPresent() {
         Optional<String> name = Optional.of("Fred");

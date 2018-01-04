@@ -17,9 +17,9 @@ public class PureFunctionsTest {
         allPeople.addAll(getTheFlintstones());
         allPeople.addAll(getTheRubbles());
         
-        assertThat(allPeople.size()).isEqualTo(6);
+        assertThat(allPeople.size()).isEqualTo(4);
         assertThat(allPeople.get(1).getFirstName()).isEqualTo("Wilma");
-        assertThat(allPeople.get(4).getFirstName()).isEqualTo("Betty");
+        assertThat(allPeople.get(3).getFirstName()).isEqualTo("Betty");
     }
     
     private List<ImmutablePerson> getTheFlintstones() {
@@ -27,7 +27,6 @@ public class PureFunctionsTest {
         
         flintstones.add(ImmutablePerson.of("Fred", "Flintstone"));
         flintstones.add(ImmutablePerson.of("Wilma", "Flintstone"));
-        flintstones.add(ImmutablePerson.of("Pebbles", "Flintstone"));
 
         return flintstones;
     }
@@ -37,7 +36,6 @@ public class PureFunctionsTest {
         
         rubbles.add(ImmutablePerson.of("Barney", "Rubble"));
         rubbles.add(ImmutablePerson.of("Betty", "Rubble"));
-        rubbles.add(ImmutablePerson.of("Bamm Bamm", "Rubble"));
 
         return rubbles;
     }
