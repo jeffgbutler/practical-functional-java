@@ -5,12 +5,12 @@ import java.util.Optional;
 
 public class Document {
     
-    private Optional<AbstractDocType> docType;
+    private AbstractDocType docType;
     private XmlElement rootElement;
 
     private Document(Builder builder) {
         rootElement = Objects.requireNonNull(builder.rootElement);
-        docType = Optional.ofNullable(builder.docType);
+        docType = builder.docType;
     }
 
     public XmlElement rootElement() {
@@ -18,7 +18,7 @@ public class Document {
     }
 
     public Optional<AbstractDocType> docType() {
-        return docType;
+        return Optional.ofNullable(docType);
     }
 
     public static class Builder {

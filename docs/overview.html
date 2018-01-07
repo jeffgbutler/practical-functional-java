@@ -226,17 +226,17 @@ public class ImmutablePerson {
         <pre>
           <code class="java" style="max-height: 550px">
 public class ImmutablePerson {
-    private Optional&lt;String&gt; middleName;
+    private String middleName;
     ...
     
     private SimpleImmutableObjectWithBuilder(Builder builder) {
         ....
-        middleName = Optional.ofNullable(builder.middleName);
+        middleName = builder.middleName; // no null check
     }
    ...
    
     public Optional&lt;String&gt; getMiddleName() {
-        return middleName;
+        return Optional.ofNullable(middleName);
     }
     
     public static class Builder {

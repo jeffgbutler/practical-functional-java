@@ -9,13 +9,13 @@ import java.util.stream.Stream;
 
 public class ImmutablePerson {
     private String firstName;
-    private Optional<String> middleName;
+    private String middleName;
     private String lastName;
     private List<String> nickNames;
     
     private ImmutablePerson(Builder builder) {
         firstName = Objects.requireNonNull(builder.firstName);
-        middleName = Optional.ofNullable(builder.middleName);
+        middleName = builder.middleName;
         lastName = Objects.requireNonNull(builder.lastName);
         nickNames = Objects.requireNonNull(builder.nickNames);
     }
@@ -33,7 +33,7 @@ public class ImmutablePerson {
     }
     
     public Optional<String> getMiddleName() {
-        return middleName;
+        return Optional.ofNullable(middleName);
     }
     
     public String getLastName() {
@@ -46,7 +46,7 @@ public class ImmutablePerson {
     
     public ImmutablePerson withMiddleName(String middleName) {
         ImmutablePerson copy = new ImmutablePerson(this);
-        copy.middleName = Optional.of(middleName);
+        copy.middleName = middleName;
         return copy;
     }
 
