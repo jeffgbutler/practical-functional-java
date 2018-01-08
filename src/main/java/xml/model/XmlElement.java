@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public class XmlElement implements VisitableElement {
     
     private String name;
-    private Optional<Attributes> attributes;
+    private Attributes attributes;
     private List<VisitableElement> children;
 
     private XmlElement(Builder builder) {
@@ -29,7 +29,7 @@ public class XmlElement implements VisitableElement {
     }
     
     public Optional<Attributes> attributes() {
-        return attributes;
+        return Optional.ofNullable(attributes);
     }
 
     public Stream<VisitableElement> children() {
@@ -53,7 +53,7 @@ public class XmlElement implements VisitableElement {
     
     public static class Builder {
         private String name;
-        private Optional<Attributes> attributes = Optional.empty();
+        private Attributes attributes;
         private List<VisitableElement> children = new ArrayList<>();
         
         public Builder withName(String name) {
@@ -62,7 +62,7 @@ public class XmlElement implements VisitableElement {
         }
         
         public Builder withAttributes(Attributes attributes) {
-            this.attributes = Optional.of(attributes);
+            this.attributes = attributes;
             return this;
         }
         
