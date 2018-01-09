@@ -145,7 +145,17 @@
       </section>
 
       <section>
-      Summary
+        <h4>Method references can reference:</h4>
+        <ul>
+          <li>Static methods (String::toUpperCase)</li>
+          <li>Instance methods (this::someMethod in some cases)</li>
+          <li>Instance methods (SomeObject::someMethod in some cases)</li>
+          <li>Constructors (SomeObject::new)</li>
+        </ul>
+      </section>
+      
+      <section>
+      <h4>Summary</h4>
         <ul>
           <li>All of these options do the same thing!</li>
           <li>My preference is method reference if possible</li>
