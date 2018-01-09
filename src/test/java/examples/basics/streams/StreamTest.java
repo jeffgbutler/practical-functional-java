@@ -1,4 +1,4 @@
-package examples.streams;
+package examples.basics.streams;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

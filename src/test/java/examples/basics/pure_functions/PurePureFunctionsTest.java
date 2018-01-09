@@ -1,4 +1,4 @@
-package examples.pure_functions;
+package examples.basics.pure_functions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,4 +1,4 @@
-package examples.composition;
+package examples.basics.composition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

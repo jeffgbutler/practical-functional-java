@@ -1,4 +1,4 @@
-package examples.optional;
+package examples.basics.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;

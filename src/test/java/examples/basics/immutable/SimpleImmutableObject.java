@@ -1,4 +1,4 @@
-package examples.immutable;
+package examples.basics.immutable;
 
 import java.util.Objects;
 
