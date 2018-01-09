@@ -1,4 +1,4 @@
-package examples.immutable;
+package solutions.basics.immutable;
 
 import java.util.ArrayList;
 import java.util.Arrays;

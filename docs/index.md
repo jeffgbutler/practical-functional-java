@@ -2,6 +2,7 @@
 
 1. [Overview and Fundamentals](overview.html)
 2. [Setup Instructions](Setup.md)
+3. [Immutability Overview](immutabilityOverview.html) [Immutable Objects Exercise](Immutability.md)
 3. [XML Renderer Exercise](XmlRenderer.md)
 4. [Refactoring Exercise](Refactoring.md)
    
