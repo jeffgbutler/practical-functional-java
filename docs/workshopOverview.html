@@ -1,0 +1,160 @@
+<html>
+<head>
+<title>Practical Functional Java</title>
+<link rel="stylesheet" href="reveal.js-3.6.0/css/reveal.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/css/theme/moon.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/obsidian.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Practical Functional Java</h2>
+        <h3>Overview</h3>
+        <h4>Jeff Butler</h4>
+        <p>github.com/jeffgbutler/practical-functional-java</p>
+      </section>
+
+      <section>
+        <h2>About Me</h2>
+        <ul>
+          <li>Enterprise Architect for DMI in Indianapolis</li>
+          <li>Committer to Apache iBatis/MyBatis since 2005</li>
+          <li>Creator of MyBatis Generator</li>
+          <li>Creator of MyBatis Dynamic SQL</li>
+          <li>Voracious reader, adventurous eater, lawn care enthusiast</li>
+          <li>Desert Island disks include White Stripes, Beck, Nirvana, Jimmie Dale Gilmore, Marty Stuart</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>How this Workshop Came to Be</h2>
+        <ul>
+          <li>I finally learned JavaScript</li>
+          <li>Java 8 Study Group</li>
+          <li>"Clean Code" Book Clubs at DMI and our clients</li>
+          <li>MyBatis Dynamic SQL</li>
+          <li>These experiences have changed the way I think about coding.</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h2>Plan for the Workshop</h2>
+        <ul>
+          <li>Some thoughts about Functional Programming</li>
+          <li>Immutability Review and Exercises</li>
+          <li>Lambda Review</li>
+          <li>Streams Review and Exercises</li>
+          <li>Optionals Review</li>
+          <li>Function Composition Review</li>
+          <li>Two multi-step guided exercises</li>
+          <li>Coda: Advanced Immutability</li>
+        </ul>
+        <p/>
+        <h4>Focus on Practical - Very Few $10 Vocabulary Words!</h4>
+      </section>
+
+      <section>
+        <h2>Functional Programming Hype</h2>
+        <ul>
+          <li>Solves all your concurrency problems!</li>
+          <li>The solution to Moore's Law slowing down!</li>
+          <li>Super Trendy! Big Money!</li>
+          <li>Retro/Vintage/Hipster Programming - Lisp is Cool Again!</li>
+        </ul>
+        <p align="left">But seriously, how many people in this room...</p>
+        <ul>
+          <li>have major concurrency problems?</li>
+          <li>have a Moore's Law problem?</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h1>Why Are You Here?</h1>
+      </section>
+      
+      <section>
+        <h2>I want to be a functional programmer!</h2>
+        <p class="fragment fade-in">Wrong answer</p>
+      </section>
+
+      <section>
+        <h2>I want to be a better programmer!</h2>
+      </section>
+
+      <section>
+        <h3>This is why we're here...</h3>
+        <img src="images/CleanCode.jpg"/>
+      </section>
+      
+      <section>
+        <h3>What is clean code?</h3>
+        <ul>
+          <li>Meaningful Names</li>
+          <li>Small Methods</li>
+          <li>Small Classes</li>
+          <li>TDD</li>
+          <li>SOLID Principles</li>
+        </ul>
+        <p/>
+        <h4 class="fragment fade-in">Functional practices urge us towards clean code</h4>
+      </section>
+      
+      <section>
+        <h3>What is Functional Programming?</h3>
+        <ul>
+          <li>Functions as first class citizens?</li>
+          <li>Pure functions?</li>
+          <li>Lambdas?</li>
+          <li>Closures?</li>
+          <li>Recursion with Tail Call Optimization?</li>
+          <li>Lazy streams?</li>
+          <li>Immutability?</li>
+          <li>Declarative vs. Imperative?</li>
+          <li>Monads (Haskell)?</li>
+          <li>Code as Data (Lisp)?</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1>Argh!</h1>
+        <p>No one can define it!</p>
+        <p class="fragment">Except maybe Uncle Bob...</p>
+      </section>
+      
+      <section>
+        <h2>Next Steps</h2>
+        <ul>
+          <li>Demo and overview of the source repo</li>
+          <li>Setup Exercise: Make sure you can run the tests in whatever IDE you choose</li>
+        </ul>
+      </section>
+
+<!-- Sections below move to other pages -->      
+      
+    </div>
+  </div>
+
+  <script src="reveal.js-3.6.0/lib/js/head.min.js"></script>
+  <script src="reveal.js-3.6.0/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+        slideNumber: 'c/t',
+        dependencies: [
+            // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+            { src: 'reveal.js-3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+            // Syntax highlight for <code> elements
+            { src: 'reveal.js-3.6.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+            // Zoom in and out with Alt+click
+            { src: 'reveal.js-3.6.0/plugin/zoom-js/zoom.js', async: true },
+
+            // Speaker notes
+            { src: 'reveal.js-3.6.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+  </script>
+</body>
+</html>

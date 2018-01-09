@@ -11,6 +11,8 @@ In this exercise you will create an object "ImmutablePerson" with the following 
 3. Required last name
 4. Optional list of nicknames
 
+Solutions are available in `src/main/java/solutions/basics/immutable/ImmutablePerson.java` 
+
 ## Exercises
 
 1. Uncomment the tests in `src/test/java/exercise/basics/immutable/BasicImmutableTest.java`

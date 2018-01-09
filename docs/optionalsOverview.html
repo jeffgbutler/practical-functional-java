@@ -1,0 +1,183 @@
+<html>
+<head>
+<title>Practical Functional Java</title>
+<link rel="stylesheet" href="reveal.js-3.6.0/css/reveal.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/css/theme/moon.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/obsidian.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Practical Functional Java</h2>
+        <h3>Optionals</h3>
+        <h4>Jeff Butler</h4>
+        <p>github.com/jeffgbutler/practical-functional-java</p>
+      </section>
+
+      <section>
+        <h1>Optionals</h1>
+        <h4>Optionals == A (mostly) replacement for null</h4>
+      </section>
+      
+      <section>
+        <h1>Optional Examples</h1>
+        <p>All code examples in <code>examples.basics.optional.OptionalTest.java</code></p>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the map method is used to transform an optional if it exists
+    @Test
+    public void testOptionalMap() {
+        Optional&lt;String&gt; name = Optional.of("Fred");
+        
+        Optional&lt;String&gt; upperName = name.map(String::toUpperCase);
+        
+        assertThat(upperName.isPresent()).isTrue();
+        assertThat(upperName.get()).isEqualTo("FRED");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the map method works on an empty Optional - just returns an empty Optional
+    @Test
+    public void testOptionalMapOnEmpty() {
+        Optional&lt;String&gt; emptyName = Optional.empty();  // or Optional.ofNullable(null);
+        
+        Optional&lt;String&gt; emptyUpperName = emptyName.map(String::toUpperCase);
+        
+        assertThat(emptyUpperName.isPresent()).isFalse();
+        
+        try {
+            assertThat(emptyUpperName.get()).isEqualTo("FRED");
+            fail("found a value on an empty Optional");
+        } catch (NoSuchElementException e) {
+            // ignore
+        }
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the filter method is used to test the value of an optional if present
+    @Test
+    public void testOptionalFilter() {
+        Optional&lt;String&gt; name = Optional.of("Fred");
+        
+        Optional&lt;String&gt; fred = name.filter(s -> s.equals("Fred"));
+        Optional&lt;String&gt; notFred = name.filter(s -> !s.equals("Fred"));
+        
+        assertThat(fred.isPresent()).isTrue();
+        assertThat(notFred.isPresent()).isFalse();
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // just like streams, optional methods can be chained
+    @Test
+    public void testOptionalMethodChaining() {
+        Optional&lt;String&gt; name = Optional.of("Fred");
+        
+        Optional&lt;String&gt; upperFred = name.filter(s -> s.equals("Fred"))
+                .map(String::toUpperCase);
+                
+        assertThat(upperFred.isPresent()).isTrue();
+        assertThat(upperFred.get()).isEqualTo("FRED");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" style="max-height: 450px">
+    // orElse is used to supply a default value if the optional is empty
+    @Test
+    public void testOptionalOrElse() {
+        Optional&lt;String&gt; fred = Optional.of("Fred");
+        
+        String upperFred = fred.filter(s -> s.equals("Fred"))
+                .map(String::toUpperCase)
+                .orElse("Unknown");
+                
+        assertThat(upperFred).isEqualTo("FRED");
+
+        Optional&lt;String&gt; barney = Optional.of("Barney");
+        
+        upperFred = barney.filter(s -> s.equals("Fred"))
+                .map(String::toUpperCase)
+                .orElse("Unknown");
+                
+        assertThat(upperFred).isEqualTo("Unknown");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // the Optional.ifPresent method is for side effects.
+    // We don't want side effects, so don't do this
+    @Test
+    public void testOptionalIfPresent() {
+        Optional&lt;String&gt; name = Optional.of("Fred");
+
+        StringBuilder sb = new StringBuilder();
+        name.ifPresent(s -> {
+            sb.append(s.toUpperCase());
+        });
+
+        assertThat(sb.toString()).isEqualTo("FRED");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <h4>Optionals Summary</h4>
+        <blockquote>
+          Optionals are a great solution for dealing with nulls.  Optional.map and Optional.filter
+          can replace a whole class of if statements in your code.
+        </blockquote>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="reveal.js-3.6.0/lib/js/head.min.js"></script>
+  <script src="reveal.js-3.6.0/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+        slideNumber: 'c/t',
+        dependencies: [
+            // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+            { src: 'reveal.js-3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+            // Syntax highlight for <code> elements
+            { src: 'reveal.js-3.6.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+            // Zoom in and out with Alt+click
+            { src: 'reveal.js-3.6.0/plugin/zoom-js/zoom.js', async: true },
+
+            // Speaker notes
+            { src: 'reveal.js-3.6.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+  </script>
+</body>
+</html>

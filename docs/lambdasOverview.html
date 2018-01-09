@@ -11,7 +11,8 @@
     <div class="slides">
       <section>
         <h2>Practical Functional Java</h2>
-        <h3>Jeff Butler</h3>
+        <h3>Lambda Syntax</h3>
+        <h4>Jeff Butler</h4>
         <p>github.com/jeffgbutler/practical-functional-java</p>
       </section>
 
@@ -90,7 +91,7 @@
         Lambda Syntax 1 (Concise)
         <pre>
           <code class="java">
-    public void testLambdaSyntax1() {
+    public void testConciseLambdaSyntax() {
         List&lt;SimpleImmutableObjectWithBuilder&gt; testObjects = getTestObjects();
         
         testObjects.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
@@ -107,7 +108,7 @@
         Lambda Syntax 2 (Verbose)
         <pre>
           <code class="java">
-    public void testLambdaSyntax2() {
+    public void testVerboseLambdaSyntax() {
         List&lt;SimpleImmutableObjectWithBuilder&gt; testObjects = getTestObjects();
         
         testObjects.sort((o1, o2) -> {
@@ -122,6 +123,26 @@
         </pre>
       </section>
 
+      <section>
+        Lambda Syntax 3 (Very Verbose)
+        <pre>
+          <code class="java">
+    public void testVeryVerboseLambdaSyntax() {
+        List&lt;SimpleImmutableObjectWithBuilder&gt; testObjects = getTestObjects();
+        
+        testObjects.sort((SimpleImmutableObjectWithBuilder o1,
+                SimpleImmutableObjectWithBuilder o2) -> {
+            return o1.getId().compareTo(o2.getId());
+        });
+        
+        assertThat(testObjects.get(0).getDescription()).isEqualTo("Ash Tree");
+        assertThat(testObjects.get(1).getDescription()).isEqualTo("Elm Tree");
+        assertThat(testObjects.get(2).getDescription()).isEqualTo("Oak Tree");
+    }
+          </code>
+        </pre>
+      </section>
+      
       <section>
         Method Reference
         <pre>
@@ -147,11 +168,52 @@
       <section>
         <h4>Method references can reference:</h4>
         <ul>
-          <li>Static methods (String::toUpperCase)</li>
+          <li>Static methods (String::valueOf)</li>
           <li>Instance methods (this::someMethod in some cases)</li>
           <li>Instance methods (SomeObject::someMethod in some cases)</li>
           <li>Constructors (SomeObject::new)</li>
         </ul>
+      </section>
+      
+      <section>
+        <h4>How Does this Work?</h4>
+        <ul>
+          <li>Functional Interfaces</li>
+          <li>Type Inference</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h4>Functional Interfaces</h4>
+        <ul>
+          <li>Interface with one, and only one, <i>abstract</i> method
+            (not including equals, toString, etc. from Object)</li>
+          <li>May or may not be annotated with @FunctionalInterface</li>
+          <li>May have other static and default methods - no restriction</li>
+        </ul>
+        <p>With a functional interface, the compiler can infer parameter and output types.</p>
+      </section>
+      
+      <section>
+        Comparator is a Functional Interface
+        <pre>
+          <code class="java" style="max-height: 500px">
+@FunctionalInterface
+public interface Comparator&lt;T&gt; {
+    int compare(T o1, T o2);
+
+    // many many default and static methods
+}
+
+// List's sort method takes a Comparator.  The compiler can infer everything it needs
+public interface List&lt;E&gt; extends Collection&lt;E&gt; {
+
+    default void sort(Comparator&lt;? super E&gt; c) {
+       ...   
+    }
+}
+          </code>
+        </pre>
       </section>
       
       <section>
@@ -164,9 +226,6 @@
         </ul>
       </section>
 
-      <section>
-        <h2>Lambdas Exercise</h2>
-      </section>
     </div>
   </div>
 

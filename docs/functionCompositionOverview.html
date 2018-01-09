@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>Practical Functional Java</title>
+<link rel="stylesheet" href="reveal.js-3.6.0/css/reveal.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/css/theme/moon.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/obsidian.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Practical Functional Java</h2>
+        <h3>Function Composition</h3>
+        <h4>Jeff Butler</h4>
+        <p>github.com/jeffgbutler/practical-functional-java</p>
+      </section>
+
+      <section>
+        <h1>Function Composition</h1>
+        <h4>Higher Order Functions in Java</h4>
+      </section>
+      
+      <section>
+        <h1>Function Composition</h1>
+        <p>All code examples in <code>examples.basics.composition.FunctionCompositionTest.java</code></p>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java">
+    // create a basic concatenation function
+    private BiFunction&lt;String, String, String&gt; concat = (a, b) -> a + " " + b;
+    
+    // create a new function that calls the concatenation function, but
+    // provides the first parameter as a constant
+    private Function&lt;String, String&gt; hello = a -> concat.apply("Hello", a);
+
+    @Test
+    public void testHello() {
+        String phrase = hello.apply("Fred");
+        
+        assertThat(phrase).isEqualTo("Hello Fred");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <pre>
+          <code class="java" style="max-height: 450px">
+    // create a basic concatenation function
+    private BiFunction&lt;String, String, String&gt; concat = (a, b) -> a + " " + b;
+    
+    // create a new function that calls the concatenation function, but
+    // provides the first parameter as a constant
+    private Function&lt;String, String&gt; hello = a -> concat.apply("Hello", a);
+
+    @Test
+    public void testHelloInStream() {
+        String answer = Stream.of(ImmutablePerson.of("Fred", "Flintstone"),
+                                  ImmutablePerson.of("Barney", "Rubble"))
+                .map(ImmutablePerson::getFirstName)
+                .map(hello)
+                .collect(Collectors.joining(", "));
+
+        assertThat(answer).isEqualTo("Hello Fred, Hello Barney");
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <h3>Suggestions for converting to functional style...</h3>
+        <ul>
+          <li>Never write another setter method</li>
+          <li>Never write another loop - use Streams</li>
+          <li>Never pass nulls around or do null checks - use Optionals</li>
+          <li>Write pure methods</li>
+          <li>Prefer method references - this will force you to write smaller functions</li> 
+        </ul>
+      </section>
+      
+      <section>
+        <h1>Time to Code!</h1>
+        <p>Two multi-step exercises...</p>
+        <ul>
+          <li>Create an XML Renderer</li>
+          <li>Refactor a looping mess</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="reveal.js-3.6.0/lib/js/head.min.js"></script>
+  <script src="reveal.js-3.6.0/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+        slideNumber: 'c/t',
+        dependencies: [
+            // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+            { src: 'reveal.js-3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+            // Syntax highlight for <code> elements
+            { src: 'reveal.js-3.6.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+            // Zoom in and out with Alt+click
+            { src: 'reveal.js-3.6.0/plugin/zoom-js/zoom.js', async: true },
+
+            // Speaker notes
+            { src: 'reveal.js-3.6.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+  </script>
+</body>
+</html>

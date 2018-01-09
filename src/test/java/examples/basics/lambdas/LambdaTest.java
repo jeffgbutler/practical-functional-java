@@ -52,7 +52,7 @@ public class LambdaTest {
 
     // java 8+ with a lambda - syntax 1
     @Test
-    public void testLambdaSyntax1() {
+    public void testConciseLambdaSyntax() {
         List<SimpleImmutableObjectWithBuilder> testObjects = getTestObjects();
         
         testObjects.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
@@ -64,10 +64,25 @@ public class LambdaTest {
 
     // java 8+ with a lambda - syntax 2
     @Test
-    public void testLambdaSyntax2() {
+    public void testVerboseLambdaSyntax() {
         List<SimpleImmutableObjectWithBuilder> testObjects = getTestObjects();
         
         testObjects.sort((o1, o2) -> {
+            return o1.getId().compareTo(o2.getId());
+        });
+        
+        assertThat(testObjects.get(0).getDescription()).isEqualTo("Ash Tree");
+        assertThat(testObjects.get(1).getDescription()).isEqualTo("Elm Tree");
+        assertThat(testObjects.get(2).getDescription()).isEqualTo("Oak Tree");
+    }
+
+    // java 8+ with a lambda - syntax 3
+    @Test
+    public void testVeryVerboseLambdaSyntax() {
+        List<SimpleImmutableObjectWithBuilder> testObjects = getTestObjects();
+        
+        testObjects.sort((SimpleImmutableObjectWithBuilder o1,
+                SimpleImmutableObjectWithBuilder o2) -> {
             return o1.getId().compareTo(o2.getId());
         });
         
