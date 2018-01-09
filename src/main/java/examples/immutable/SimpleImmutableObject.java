@@ -2,6 +2,8 @@ package examples.immutable;
 
 import java.util.Objects;
 
+// This is the simplest way to build an immutable object.  But it will quickly get out of
+// hand if there are more than one or two attributes
 public final class SimpleImmutableObject {
     private final Integer id;
     private final String description;

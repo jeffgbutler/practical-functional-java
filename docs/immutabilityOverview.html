@@ -1,0 +1,350 @@
+<html>
+<head>
+<title>Practical Functional Java</title>
+<link rel="stylesheet" href="reveal.js-3.6.0/css/reveal.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/css/theme/moon.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/obsidian.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Practical Functional Java</h2>
+        <h3>Jeff Butler</h3>
+        <p>github.com/jeffgbutler/practical-functional-java</p>
+      </section>
+
+      <section>
+        <h1>It's All About Immutability</h1>
+        <blockquote>Functional programming imposes discipline on assignment.</blockquote>
+        <p>Uncle Bob in "Clean Architecture", page 23</p>
+        <p>In other words...immutability is the key concept in functional programming.</p>
+      </section>
+      
+      <section>
+        <h2>"Functional" Java</h2>
+        <ul>
+          <li>Java is OO and we love changing the state of objects</li>
+          <li>Going immutable in Java takes discipline</li>
+          <li>Java 8 added some important things...
+            <ul>
+              <li>Functional Interfaces</li>
+              <li>Lambda expressions</li>
+              <li>Lazy Streams (a declarative paradigm)</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+      
+      <section>
+        <h2>Manifestations of Immutability</h2>
+        <ul>
+          <li>Immutable Classes</li>
+          <li>Pure Functions</li>
+        </ul>
+        <p>If you can only remember one thing from this workshop, then remember that
+          <u>writing pure functions will radically change, and improve, the way you write code</u>.</p>
+      </section>
+      
+      <section>
+        <h2>Immutable Classes</h2>
+        <ul>
+          <li>No Setters</li>
+          <li>Getters don't return mutable Objects like Lists or Maps</li>
+        </ul>
+      </section>
+      
+      <section>
+        Simple Immutable Object
+        <pre>
+          <code class="java" style="max-height: 550px">
+public final class SimpleImmutableObject {
+    private final Integer id;
+    private final String description;
+    
+    public SimpleImmutableObject(Integer id, String description) {
+        this.id = Objects.requireNonNull(id);  // check for nulls!
+        this.description = Objects.requireNonNull(description);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+}
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Fluent Builder Pattern - More Flexible
+        <pre>
+          <code class="java" style="max-height: 550px">
+public final class SimpleImmutableObjectWithBuilder {
+    private final Integer id;
+    private final String description;
+    
+    private SimpleImmutableObjectWithBuilder(Builder builder) {
+        this.id = Objects.requireNonNull(builder.id);
+        this.description = Objects.requireNonNull(builder.description);
+    }
+
+    // getters...
+
+    public static class Builder {
+        private Integer id;
+        private String description;
+        
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+        
+        public Builder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+        
+        public SimpleImmutableObjectWithBuilder build() {
+            return new SimpleImmutableObjectWithBuilder(this);
+        }
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Fluent Builder Pattern - How to Handle Optionals
+        <pre>
+          <code class="java" style="max-height: 550px">
+public class ImmutablePerson {
+    private String middleName;
+    ...
+    
+    private ImmutablePerson(Builder builder) {
+        ....
+        middleName = builder.middleName;  // no null check
+    }
+   ...
+   
+    public Optional&lt;String&gt; getMiddleName() {
+        return Optional.ofNullable(middleName);
+    }
+    
+    public static class Builder {
+        private String middleName;
+        ...
+
+        public Builder withMiddleName(String middleName) {
+            this.middleName = middleName;
+            return this;
+        }
+        ...
+    }
+}
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Fluent Builder Pattern - How to Handle Lists
+        <pre>
+          <code class="java" style="max-height: 550px">
+public class ImmutablePerson {
+    private List&lt;String&gt; nickNames;
+    ...
+    
+    private SimpleImmutableObjectWithBuilder(Builder builder) {
+        ....
+        nickNames = Objects.requireNonNull(builder.nickNames);
+    }
+   ...
+   
+    public Stream&lt;String&gt; nickNames() {
+        return nickNames.stream();
+    }
+    
+    public static class Builder {
+        private List&lt;String&gt; nickNames = new ArrayList&lt;&gt;();
+        ...
+
+        public Builder withNickName(String nickName) {
+            nickNames.add(nickName);
+            return this;
+        }
+        
+        public Builder withNickNames(List&lt;String&gt; nickNames) {
+            this.nickNames.addAll(nickNames);
+            return this;
+        }
+        ...
+    }
+}
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        How to Make "Mutable" Immutables
+        <pre>
+          <code class="java" style="max-height: 550px">
+public class ImmutablePerson {
+    ...
+    
+    // copy constructor - for the with*** methods
+    private ImmutablePerson(ImmutablePerson other) {
+        firstName = other.firstName;
+        middleName = other.middleName;
+        lastName = other.lastName;
+        nickNames = new ArrayList&lt;&gt;(other.nickNames);
+    }
+    
+    public ImmutablePerson withMiddleName(String middleName) {
+        ImmutablePerson copy = new ImmutablePerson(this);
+        copy.middleName = middleName;
+        return copy;
+    }
+}
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <h1>Pure Functions</h1>
+        <ul>
+          <li>Produce output based solely on their inputs</li>
+          <li>Do not rely on external state</li>
+          <li>Do not modify external state</li>
+          <li>Are easier to reason about</li>
+          <li>Are easier to test</li>
+          <li>Are easier to multi-thread</li>
+        </ul>
+      </section>
+      
+      <section>
+        Don't Do This!
+        <pre>
+          <code class="java" style="max-height: 500px">
+    @Test
+    public void testImpureFunction() {
+        List&lt;ImmutablePerson&gt; allPeople = new ArrayList&lt;&gt;();
+        addTheFlintstones(allPeople);
+        addTheRubbles(allPeople);
+        
+        assertThat(allPeople.size()).isEqualTo(4);
+        assertThat(allPeople.get(1).getFirstName()).isEqualTo("Wilma");
+        assertThat(allPeople.get(3).getFirstName()).isEqualTo("Betty");
+    }
+
+    private void addTheFlintstones(List&lt;ImmutablePerson&gt; people) {
+        people.add(ImmutablePerson.of("Fred", "Flintstone"));
+        people.add(ImmutablePerson.of("Wilma", "Flintstone"));
+    }
+
+    private void addTheRubbles(List&lt;ImmutablePerson&gt; people) {
+        people.add(ImmutablePerson.of("Barney", "Rubble"));
+        people.add(ImmutablePerson.of("Betty", "Rubble"));
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Do This!
+        <pre>
+          <code class="java" style="max-height: 550px">
+    @Test
+    public void testPureFunction() {
+        List&lt;ImmutablePerson&gt; allPeople = new ArrayList&lt;&gt;();
+        allPeople.addAll(getTheFlintstones());
+        allPeople.addAll(getTheRubbles());
+        
+        assertThat(allPeople.size()).isEqualTo(4);
+    }
+    
+    private List&lt;ImmutablePerson&gt; getTheFlintstones() {
+        List&lt;ImmutablePerson&gt; flintstones = new ArrayList&lt;&gt;();
+        flintstones.add(ImmutablePerson.of("Fred", "Flintstone"));
+        flintstones.add(ImmutablePerson.of("Wilma", "Flintstone"));
+        return flintstones;
+    }
+
+    private List&lt;ImmutablePerson&gt; getTheRubbles() {
+        List&lt;ImmutablePerson&gt; rubbles = new ArrayList&lt;&gt;();
+        rubbles.add(ImmutablePerson.of("Barney", "Rubble"));
+        rubbles.add(ImmutablePerson.of("Betty", "Rubble"));
+        return rubbles;
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        Even Better - Do This!
+        <pre>
+          <code class="java" style="max-height: 500px">
+    @Test
+    public void testPureFunction() {
+        List&lt;ImmutablePerson&gt; allPeople = Stream.of(getTheFlintstones(), getTheRubbles())
+                .flatMap(Function.identity())
+                .collect(Collectors.toList());
+        
+        assertThat(allPeople.size()).isEqualTo(4);
+        assertThat(allPeople.get(1).getFirstName()).isEqualTo("Wilma");
+        assertThat(allPeople.get(3).getFirstName()).isEqualTo("Betty");
+    }
+    
+    private Stream&lt;ImmutablePerson&gt; getTheFlintstones() {
+        return Stream.of(ImmutablePerson.of("Fred", "Flintstone"),
+                ImmutablePerson.of("Wilma", "Flintstone"));
+    }
+
+    private Stream&lt;ImmutablePerson&gt; getTheRubbles() {
+        return Stream.of(ImmutablePerson.of("Barney", "Rubble"),
+                ImmutablePerson.of("Betty", "Rubble"));
+    }
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <h4>Immutability Summary</h4>
+        <blockquote>
+          This is hard to explain - you'll have to take my word on it...
+          When you program with immutable objects and pure functions it changes
+          the way you think.
+        </blockquote>
+      </section>
+
+      <section>
+        <h2>Immutability Exercise</h2>
+      </section>
+    </div>
+  </div>
+
+  <script src="reveal.js-3.6.0/lib/js/head.min.js"></script>
+  <script src="reveal.js-3.6.0/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+        slideNumber: 'c/t',
+        dependencies: [
+            // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+            { src: 'reveal.js-3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+            // Syntax highlight for <code> elements
+            { src: 'reveal.js-3.6.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+            // Zoom in and out with Alt+click
+            { src: 'reveal.js-3.6.0/plugin/zoom-js/zoom.js', async: true },
+
+            // Speaker notes
+            { src: 'reveal.js-3.6.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+  </script>
+</body>
+</html>

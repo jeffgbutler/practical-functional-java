@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import org.junit.Test;
 
-import examples.immutable.ImmutablePerson;
+import solutions.basics.immutable.ImmutablePerson;
 
 public class StreamTest {
 

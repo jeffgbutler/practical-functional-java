@@ -1,4 +1,4 @@
-package examples.pure;
+package examples.pure_functions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import examples.immutable.ImmutablePerson;
+import solutions.basics.immutable.ImmutablePerson;
 
 public class ImpureFunctionsTest {
 
