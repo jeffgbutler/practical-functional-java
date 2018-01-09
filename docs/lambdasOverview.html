@@ -17,6 +17,7 @@
 
       <section>
         <h1>Lambdas</h1>
+        <h4>Lambda == Anonymous Class</h4>
       </section>
       
       <section>
@@ -50,9 +51,11 @@
         assertThat(testObjects.get(2).getDescription()).isEqualTo("Oak Tree");
     }
     
-    private static class TestComparator implements Comparator&lt;SimpleImmutableObjectWithBuilder&gt; {
+    private static class TestComparator implements
+            Comparator&lt;SimpleImmutableObjectWithBuilder&gt; {
         @Override
-        public int compare(SimpleImmutableObjectWithBuilder o1, SimpleImmutableObjectWithBuilder o2) {
+        public int compare(SimpleImmutableObjectWithBuilder o1,
+                SimpleImmutableObjectWithBuilder o2) {
             return o1.getId().compareTo(o2.getId());
         }
     }
@@ -69,7 +72,8 @@
         
         testObjects.sort(new Comparator&lt;SimpleImmutableObjectWithBuilder&gt;() {
             @Override
-            public int compare(SimpleImmutableObjectWithBuilder o1, SimpleImmutableObjectWithBuilder o2) {
+            public int compare(SimpleImmutableObjectWithBuilder o1,
+                    SimpleImmutableObjectWithBuilder o2) {
                 return o1.getId().compareTo(o2.getId());
             }
         });
@@ -132,7 +136,8 @@
         assertThat(testObjects.get(2).getDescription()).isEqualTo("Oak Tree");
     }
     
-    private int compare(SimpleImmutableObjectWithBuilder o1, SimpleImmutableObjectWithBuilder o2) {
+    private int compare(SimpleImmutableObjectWithBuilder o1,
+            SimpleImmutableObjectWithBuilder o2) {
         return o1.getId().compareTo(o2.getId());
     }
           </code>
@@ -140,6 +145,7 @@
       </section>
 
       <section>
+      Summary
         <ul>
           <li>All of these options do the same thing!</li>
           <li>My preference is method reference if possible</li>
