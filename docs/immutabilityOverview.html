@@ -82,6 +82,15 @@ public final class SimpleImmutableObject {
       </section>
       
       <section>
+        Instantiating Immutable Object
+        <pre>
+          <code class="java">
+          SimpleImmutableObject myObject = new SimpleImmutableObject(3, "A Number");
+          </code>
+        </pre>
+      </section>
+      
+      <section>
         Fluent Builder Pattern - More Flexible
         <pre>
           <code class="java" style="max-height: 550px">
@@ -116,6 +125,20 @@ public final class SimpleImmutableObjectWithBuilder {
     }
           </code>
         </pre>
+      </section>
+      
+      <section>
+        Instantiating With a Builder
+        <pre>
+          <code class="java">
+  SimpleImmutableObjectWithBuilder myObject = new SimpleImmutableObjectWithBuilder.Builder()
+      .withId(3)
+      .withDescription("A Number")
+      .build();
+          </code>
+        </pre>
+        <p>The with* methods can be called in any order, or multiple times, or not at all.  The constructor should
+           do null checking for required attributes.</p>
       </section>
       
       <section>
@@ -212,6 +235,21 @@ public class ImmutablePerson {
 }
           </code>
         </pre>
+      </section>
+
+      <section>
+        Using with* Methods
+        <pre>
+          <code class="java">
+  ImmutablePerson person = new ImmutablePerson.Builder()
+      .withFirstName("Fred")
+      .withLastName("Flintstone")
+      .build();
+      
+  person = person.withMiddleName("Farnsworth");
+          </code>
+        </pre>
+        <p>The with* methods create new instances.  So the old person object still exists and is unchanged.</p>
       </section>
 
       <section>
