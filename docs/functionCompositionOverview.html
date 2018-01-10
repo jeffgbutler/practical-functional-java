@@ -13,16 +13,48 @@
         <h2>Practical Functional Java</h2>
         <h3>Function Composition</h3>
         <h4>Jeff Butler</h4>
-        <p>github.com/jeffgbutler/practical-functional-java</p>
+        <p>https://github.com/jeffgbutler/practical-functional-java</p>
+        <p>https://jeffgbutler.github.io/practical-functional-java/</p>
       </section>
 
       <section>
-        <h1>Function Composition</h1>
+        <h2>Function Composition</h2>
         <h4>Higher Order Functions in Java</h4>
-        <p>All code examples in <code>examples.basics.composition.FunctionCompositionTest</code></p>
+        <p>All code examples in <code style="font-size: smaller">examples.basics.composition.FunctionCompositionTest.java</code></p>
       </section>
       
       <section>
+        <h4>Higher Order Functions</h4>
+        <ul>
+          <li>Higher order functions means that functions can be used as parameters,
+            return values, or attributes
+          </li>
+          <li>Java doesn't have functions/methods that live outside of objects</li>
+          <li>Functional interfaces and lambdas have added some syntax support</li>
+          <li>This topic can get crazy with weird vocabulary and unusual concepts</li>
+          <li>We're going to cover something relatively simple that will be useful later on</li>
+        </ul>
+      </section>
+
+      <section>
+        <p>BiFunction Functional Interface</p>
+        <pre>
+          <code class="java">
+    // create a basic concatenation function
+    private BiFunction&lt;String, String, String&gt; concat = (a, b) -> a + " " + b;
+
+    @Test
+    public void testConcat() {
+        String phrase = concat.apply("Hello", "Fred");
+        
+        assertThat(phrase).isEqualTo("Hello Fred");
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <p>Function and BiFunction Functional Interfaces</p>
         <pre>
           <code class="java">
     // create a basic concatenation function
@@ -43,6 +75,7 @@
       </section>
 
       <section>
+        <p>"composed" Functions are Useful in Stream Pipelines</p>
         <pre>
           <code class="java" style="max-height: 450px">
     // create a basic concatenation function

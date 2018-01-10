@@ -21,6 +21,13 @@ public class FunctionCompositionTest {
     private Function<String, String> hello = a -> concat.apply("Hello", a);
 
     @Test
+    public void testConcat() {
+        String phrase = concat.apply("Hello", "Fred");
+        
+        assertThat(phrase).isEqualTo("Hello Fred");
+    }
+
+    @Test
     public void testHello() {
         String phrase = hello.apply("Fred");
         
