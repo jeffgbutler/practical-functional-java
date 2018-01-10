@@ -19,9 +19,165 @@
       <section>
         <h1>Immutability Redux</h1>
         <h4>How Inheritance Ruins Everything</h4>
+        <p>All code examples in package <code>examples.basics.lambdas.immutable.redux</code></p>
       </section>
       
+      <section>
+        <h4>Builders with Inheritance</h4>
+        <ul>
+          <li>When creating a hierarchy of immutable objects, you might also need a hierarchy of builders</li>
+          <li>That's when things get tricky</li>
+          <li>Suppose you have a typical hierarchy of Cat and Dog objects, both inheriting from AbstractAnimal...</li>
+        </ul>
+      </section>
 
+      <section>
+        <p>We start out coding AbstractAnimal similarly to our previous examples...</p>
+        <pre>
+          <code class="java" style="max-height: 450px">
+public abstract class AbstractAnimal {
+
+    private String name;
+    private int age;
+    
+    protected AbstractAnimal(AbstractBuilder builder) {
+        name = Objects.requireNonNull(builder.name);
+        age = builder.age;
+    }
+
+    public abstract String sayHello();
+    
+    public static abstract class AbstractBuilder {
+        private String name;
+        private int age;
+
+        public AbstractBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public AbstractBuilder withAge(int age) {
+            this.age = age;
+            return this;
+        }
+        
+// won't compile!
+//        public AbstractAnimal build() {
+//            return new AbstractAnimal(this);
+//        }
+    }
+}
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h4>Problems</h4>
+        <ul>
+          <li>Won't compile with our normal build method</li>
+          <li>A more subtle problem - the with* builder methods lose the concrete class name</li>
+          <li>The solution is two fold:
+            <ul>
+              <li>The Curiously Recurring Template Pattern</li>
+              <li>The "getThis()" trick</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+      
+      <section>
+        <p>AbstractAnimal coded with the curiously recurring template pattern and "getThis()"...</p>
+        <pre>
+          <code class="java" style="max-height: 450px">
+public abstract class BetterAbstractAnimal {
+
+    private String name;
+    private int age;
+    
+    protected BetterAbstractAnimal(AbstractBuilder&lt;?&gt; builder) {
+        name = Objects.requireNonNull(builder.name);
+        age = builder.age;
+    }
+
+    public abstract String sayHello();
+    
+    public static abstract class AbstractBuilder&lt;T extends AbstractBuilder&lt;T&gt;&gt; {
+        private String name;
+        private int age;
+
+        public T withName(String name) {
+            this.name = name;
+            return getThis();
+        }
+
+        public T withAge(int age) {
+            this.age = age;
+            return getThis();
+        }
+        
+        protected abstract T getThis();
+    }
+}
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <p>Now we can code our Dog...</p>
+        <pre>
+          <code class="java" style="max-height: 450px">
+public class Dog extends BetterAbstractAnimal {
+    
+    private String akcRegistrationNumber;
+    
+    private Dog(Builder builder) {
+        super(builder);
+        akcRegistrationNumber = Objects.requireNonNull(builder.akcRegistrationNumber);
+    }
+    
+    public String getAkcRegistrationNumber() {
+        return akcRegistrationNumber;
+    }
+
+    @Override
+    public String sayHello() {
+        return "woof";
+    }
+
+    public static class Builder extends AbstractBuilder&lt;Builder&gt; {
+        private String akcRegistrationNumber;
+        
+        public Builder withAkcRegistrationNumber(String akcRegistrationNumber) {
+            this.akcRegistrationNumber = akcRegistrationNumber;
+            return this;
+        }
+        
+        @Override
+        public Builder getThis() {
+            return this;
+        }
+        
+        public Dog build() {
+            return new Dog(this);
+        }
+    }
+}
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h4>Good References</h4>
+        <p style="font-size: smaller">https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern</p>
+        <p style="font-size: x-large;">http://www.angelikalanger.com/GenericsFAQ/FAQSections/ProgrammingIdioms.html#FAQ206</p>
+      </section>
+
+      <section>
+        <h3>Thank You!</h3>
+        <p>Please rate the session.  Suggestions for improvements are very welcome.</p>
+        <p>jeffgbutler@gmail.com</p>
+        <p>github.com/jeffgbutler</p>
+      </section>
     </div>
   </div>
 

@@ -15,5 +15,5 @@ Solutions are available in `src/main/java/solutions/basics/immutable/ImmutablePe
 
 ## Exercises
 
-1. Uncomment the tests in `src/test/java/exercise/basics/immutable/BasicImmutableTest.java`
-2. Fill in the object `src/main/java/exercise/basics/immutable/ImmutablePerson.java` so that the tests pass
+1. Uncomment the tests in `src/test/java/exercises/basics/immutable/BasicImmutableTest.java`
+2. Fill in the object `src/main/java/exercises/basics/immutable/ImmutablePerson.java` so that the tests pass

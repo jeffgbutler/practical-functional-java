@@ -52,7 +52,7 @@ public class StreamTest {
     
     // the "filter" method is used to create a new stream containing only items that match the filter
     @Test
-    public void testFilterLambda1() {
+    public void testFilterConciseLambda() {
         List<ImmutablePerson> flintstones = getTheFlintstones()
                 .filter(p -> p.getFirstName().equals("Fred") || p.getFirstName().equals("Wilma"))
                 .collect(Collectors.toList());
@@ -61,19 +61,6 @@ public class StreamTest {
         assertThat(flintstones.get(1).getFirstName()).isEqualTo("Wilma");
     }
 
-    // the "filter" method is used to create a new stream containing only items that match the filter
-    @Test
-    public void testFilterWithLambda2() {
-        List<ImmutablePerson> flintstones = getTheFlintstones()
-                .filter(p -> {
-                    return p.getFirstName().equals("Fred") || p.getFirstName().equals("Wilma");
-                })
-                .collect(Collectors.toList());
-        
-        assertThat(flintstones.size()).isEqualTo(2);
-        assertThat(flintstones.get(1).getFirstName()).isEqualTo("Wilma");
-    }
-    
     // the "filter" method is used to create a new stream containing only items that match the filter
     @Test
     public void testFilterWithMethodReference() {

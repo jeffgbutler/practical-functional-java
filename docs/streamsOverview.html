@@ -19,17 +19,37 @@
       <section>
         <h1>Streams</h1>
         <h4>Streams == Lazy Pipelines</h4>
+        <p>All code examples in <code>examples.basics.streams.StreamTest.java</code></p>
       </section>
       
       <section>
-        <h1>Stream Examples</h1>
-        <p>All code examples in <code>examples.basics.streams.StreamTest.java</code></p>
+        <h4>Declarative vs. Imperative</h4>
+        <ul>
+          <li>Streams are declarative</li>
+          <li>Streams are to Collections as SQL is to Data</li>
+          <li>Streams can replace some very common patterns in your code.</li>
+          <li>Streams require some trust - that they work better than your imperative code</li>
+          <li>In my experience, the best way to learn to work with streams is to swear you will never write
+              another for/do/while loop</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h4>Laziness</h4>
+        <ul>
+          <li>Streams are lazy.  This is good for ... reasons</li>
+          <li>Streams can be parallel.  This is good for ... reasons</li>
+          <li>Laziness means that intermediate operations are not executed until a terminal operation is called</li>
+          <li>Typical intermediate operations are map, flatMap and filter</li>
+          <li>Typical terminal operations are reduce, collect, count, min, max</li>
+          <li>There are a HUGE number of different types of collectors.  We will only cover a few.</li> 
+        </ul>
       </section>
 
       <section>
+        <p>Streams can be created from a List</p>
         <pre>
           <code class="java">
-    // Streams can be created from a list
     private Stream&lt;ImmutablePerson&gt; getTheFlintstones() {
         List&lt;ImmutablePerson&gt; people = new ArrayList&lt;&gt;();
         
@@ -44,9 +64,9 @@
       </section>
 
       <section>
+        <p>Streams can be created directly with the "of" method</p>
         <pre>
           <code class="java">
-    // Streams can be created directly with the "of" method
     private Stream&lt;ImmutablePerson&gt; getTheRubbles() {
         return Stream.of(ImmutablePerson.of("Barney", "Rubble"),
                 ImmutablePerson.of("Betty", "Rubble"),
@@ -57,9 +77,9 @@
       </section>
 
       <section>
+        <p>The "collect" method can gather a stream into a List</p>
         <pre>
           <code class="java">
-    // the "collect" method can be used to turn a stream into a List
     @Test
     public void testCollect() {
         List&lt;ImmutablePerson&gt; flintstones = getTheFlintstones()
@@ -73,14 +93,16 @@
       </section>
 
       <section>
+        <p>The "filter" method is used to create a new stream containing only
+           items that match the filter</p>
         <pre>
-          <code class="java" data-noescape>
+          <code class="java">
     // the "filter" method is used to create a new stream containing only
     // items that match the filter
     @Test
-    public void testFilterLambda1() {
+    public void testFilterConciseLambda() {
         List&lt;ImmutablePerson&gt; flintstones = getTheFlintstones()
-              .filter(<mark>p -> p.getFirstName().equals("Fred") || p.getFirstName().equals("Wilma")</mark>)
+              .filter(p -> p.getFirstName().equals("Fred") || p.getFirstName().equals("Wilma"))
               .collect(Collectors.toList());
         
         assertThat(flintstones.size()).isEqualTo(2);
@@ -91,34 +113,13 @@
       </section>
 
       <section>
+        <p>You can use a method reference in a filter method.</p>
         <pre>
-          <code class="java" data-noescape>
-    // the "filter" method is used to create a new stream containing only
-    // items that match the filter
-    @Test
-    public void testFilterWithLambda2() {
-        List&lt;ImmutablePerson&gt; flintstones = getTheFlintstones()
-                .filter(<mark>p -> {</mark>
-                    <mark>return p.getFirstName().equals("Fred") || p.getFirstName().equals("Wilma");</mark>
-                <mark>}</mark>)
-                .collect(Collectors.toList());
-        
-        assertThat(flintstones.size()).isEqualTo(2);
-        assertThat(flintstones.get(1).getFirstName()).isEqualTo("Wilma");
-    }
-          </code>
-        </pre>
-      </section>
-
-      <section>
-        <pre>
-          <code class="java" data-noescape>
-    // the "filter" method is used to create a new stream containing only
-    // items that match the filter
+          <code class="java">
     @Test
     public void testFilterWithMethodReference() {
         List&lt;ImmutablePerson&gt; flintstones = getTheFlintstones()
-                .filter(<mark>this::isFredOrWilma</mark>)
+                .filter(this::isFredOrWilma)
                 .collect(Collectors.toList());
         
         assertThat(flintstones.size()).isEqualTo(2);
@@ -133,9 +134,9 @@
       </section>
 
       <section>
+        <p>The "map" method is used to transform a stream from one type to another</p>
         <pre>
           <code class="java" style="max-height: 450px">
-    // the "map" method is used to transform a stream from one type to another
     @Test
     public void getMap() {
         String directoryListing = getTheFlintstones()
@@ -157,10 +158,10 @@
       </section>
 
       <section>
+        <p>The "sorted" method is used to reorder a Stream</p>
         <pre>
           <code class="java">
-    // the "sorted" method is used to reorder a Stream
-    // can supply a lambda for the sort function, or use
+    // you can supply a lambda for the sort function, or use
     // the natural order of a comparable
     @Test
     public void testSorted() {
@@ -180,9 +181,9 @@
       </section>
 
       <section>
+        <p>Stream methods can be chained together to create a pipeline</p>
         <pre>
           <code class="java">
-    // stream methods can be chained together
     @Test
     public void testStreamMethodChaining() {
         String directoryListing = getTheFlintstones()
@@ -201,9 +202,9 @@
       </section>
 
       <section>
+        <p>The skip method can be used to skip over items in a stream</p>
         <pre>
           <code class="java">
-    // the skip function can be used to skip over items in a stream
     @Test
     public void testSkip() {
         String directoryListing = getTheFlintstones()
@@ -222,9 +223,9 @@
       </section>
 
       <section>
+        <p>flatMap is used to apply a many to one mapping</p> 
         <pre>
           <code class="java" style="max-height: 500px">
-    // flatMap is used to apply a many to one mapping 
     @Test
     public void testFlatMap1() {
         ImmutablePerson fred = ImmutablePerson.of("Fred", "Flintstone");
@@ -250,9 +251,9 @@
       </section>
 
       <section>
+        <p>This is a better use of flatMap</p> 
         <pre>
           <code class="java" style="max-height: 500px">
-    // flatMap is used to apply a many to one mapping 
     @Test
     public void testFlatMap2() {
         ImmutablePerson fred = ImmutablePerson.of("Fred", "Flintstone");
@@ -276,9 +277,9 @@
       </section>
 
       <section>
+        <p>Streams can be concatenated with the concat method</p>
         <pre>
           <code class="java">
-    // streams can be concatenated with the concat method
     @Test
     public void testConcatenationWithConcat() {
         // concat is OK to use when concatenating two streams, but can cause problems
@@ -297,9 +298,9 @@
       </section>
 
       <section>
+        <p>Streams can also be concatenated with flatMap</p>
         <pre>
           <code class="java">
-    // streams can also be concatenated with flatMap
     @Test
     public void testConcatenationWithFlatMap() {
         List&lt;ImmutablePerson&gt; allPeople = Stream.of(getTheFlintstones(), getTheRubbles())
@@ -315,10 +316,10 @@
       </section>
 
       <section>
+        <p>The Stream.forEach method is for side effects.  We don't want side effects,
+            so avoid doing this</p>
         <pre>
           <code class="java" style="max-height: 450px">
-    // the Stream.forEach method is for side effects.  We don't want side effects,
-    // so don't do this
     @Test
     public void testForEach() {
         StringBuilder sb = new StringBuilder();
