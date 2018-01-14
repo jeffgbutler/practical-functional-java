@@ -6,8 +6,8 @@
 4. [Lambdas Overview](lambdasOverview.html)
 5. [Streams Overview](streamsOverview.html), [Streams Exercises](streamsExercise.md)
 6. [Optionals Overview](optionalsOverview.html)
-7. [Function Composition](functionCompositionOverview.html)
-8. [XML Renderer Exercise](xmlRendererExercise.md)
+7. [XML Renderer Exercise](xmlRendererExercise.md)
+8. [Function Composition](functionCompositionOverview.html)
 9. [Refactoring Exercise](refactoringExercise.md)
 10. [Coda: Immutability](crtpOverview.html)
 

@@ -82,7 +82,7 @@ The goal is to make all the tests in `src/test/java/exercises/xml` pass.  You wi
    - Making this method work will require several supporting methods.  We suggest the following supporting methods:
       - Create a method `Stream<String> renderOpen(XmlElement)` that returns a stream consisting of a single String - the rendered XML open tag.  This method is very similar to the `renderElementWithoutChildren` method with the difference that it does not return a closed tag
       - Create a method `Stream<String> renderClose(XmlElement)` that returns a stream consisting of a single String - the rendered XML close tag.  This is simple string concatenation.
-      - Create a method `Stream<String> renderChild(VisitableElement element)` that renders an element. This element should call the `accept` method on the `element` and pass `this`.  This is essentially a recursive call into the same visitor.
+      - Create a method `Stream<String> renderChild(VisitableElement element)` that renders an element. This method should call the `accept` method on the `element` and pass `this`.  This is essentially a recursive call into the same visitor.
       - Create a method `String indent(String s)` that returns the input String with two spaces appended at the beginning (simple string concatenation)
       - Create a method `Stream<String> renderChildren(XmlElement)` that renders each child element of the  `XmlElement` and indents the results. Hints: This method should have method references to the `renderChild` and `indent` methods created earlier.  Also remember that `Stream.flatMap` will turn a stream of streams into a flattened stream.
    - Finally, complete the `renderElementWithChidren` by `Stream<String>` that adds the Open tag, rendered children, and the close tag.  Hints: again, this is a place for `flatMap` and also remember that `Function.identity()` is a function that returns whatever is input into the function.
@@ -99,6 +99,6 @@ The goal is to make all the tests in `src/test/java/exercises/xml` pass.  You wi
       - the root element name
       - the rendered doctype or empty string (use a method reference to the method created above)
       - ">"
-   - Create a method `String<String> renderRootElement(Document)` that renders the root element by calling the `accept` method with visitor completed in steps #5-#7 above
+   - Create a method `Stream<String> renderRootElement(Document)` that renders the root element by calling the `accept` method with visitor completed in steps #5-#7 above
    - Finally finish the `render(Document)` method by concatenating the XML header, DocType, and rendered root element and adding a newline character (`\n`) after each string.  This will be a Stream of streams, flattened, then collected.
    - Finishing these methods should resolve four failing tests.
