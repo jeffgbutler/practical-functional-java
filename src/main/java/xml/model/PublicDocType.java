@@ -1,12 +1,14 @@
 package xml.model;
 
+import java.util.Objects;
+
 public class PublicDocType extends AbstractDocType {
     
     private String dtdName;
     
     private PublicDocType(Builder builder) {
         super(builder);
-        this.dtdName = builder.dtdName;
+        this.dtdName = Objects.requireNonNull(builder.dtdName);
     }
     
     public String dtdName() {

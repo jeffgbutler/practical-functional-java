@@ -1,13 +1,15 @@
 package xml.model;
 
+import java.util.Objects;
+
 public class Attribute implements Comparable<Attribute>{
     
     private String name;
     private String value;
 
     private Attribute(String name, String value) {
-        this.name = name;
-        this.value = value;
+        this.name = Objects.requireNonNull(name);
+        this.value = Objects.requireNonNull(value);
     }
 
     public String name() {

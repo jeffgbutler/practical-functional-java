@@ -1,27 +1,21 @@
 package xml.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class XmlElement implements VisitableElement {
     
     private String name;
     private Attributes attributes;
-    private List<VisitableElement> children;
 
-    private XmlElement(Builder builder) {
+    protected XmlElement(AbstractBuilder<?> builder) {
         name = Objects.requireNonNull(builder.name);
         attributes = builder.attributes;
-        children = builder.children;
     }
     
-    private XmlElement(XmlElement other) {
+    protected XmlElement(XmlElement other) {
         name = other.name;
         attributes = other.attributes;
-        children = new ArrayList<>(other.children);
     }
     
     public String name() {
@@ -32,52 +26,43 @@ public class XmlElement implements VisitableElement {
         return Optional.ofNullable(attributes);
     }
 
-    public Stream<VisitableElement> children() {
-        return children.stream();
+    public XmlElementWithChildren withChild(VisitableElement child) {
+        return new XmlElementWithChildren.Builder()
+                .withName(name)
+                .withAttributes(attributes)
+                .withChild(child)
+                .build();
     }
 
-    public boolean hasChildren() {
-        return !children.isEmpty();
-    }
-
-    public XmlElement withChild(VisitableElement child) {
-        XmlElement copy = new XmlElement(this);
-        copy.children.add(child);
-        return copy;
-    }
-    
     @Override
     public <R> R accept(ElementVisitor<R> visitor) {
         return visitor.visit(this);
     }
     
-    public static class Builder {
+    protected static abstract class AbstractBuilder<T extends AbstractBuilder<T>> {
         private String name;
         private Attributes attributes;
-        private List<VisitableElement> children = new ArrayList<>();
         
-        public Builder withName(String name) {
+        public T withName(String name) {
             this.name = name;
-            return this;
+            return getThis();
         }
         
-        public Builder withAttributes(Attributes attributes) {
+        public T withAttributes(Attributes attributes) {
             this.attributes = attributes;
-            return this;
+            return getThis();
         }
         
-        public Builder withChildren(List<VisitableElement> children) {
-            this.children.addAll(children);
-            return this;
-        }
-
-        public Builder withChild(VisitableElement child) {
-            this.children.add(child);
-            return this;
-        }
-        
+        protected abstract T getThis();
+    }
+    
+    public static class Builder extends AbstractBuilder<Builder> {
         public XmlElement build() {
             return new XmlElement(this);
+        }
+        
+        protected Builder getThis() {
+            return this;
         }
     }
 }

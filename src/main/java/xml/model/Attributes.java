@@ -3,7 +3,6 @@ package xml.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public class Attributes {
@@ -11,7 +10,7 @@ public class Attributes {
     private List<Attribute> attributes;
     
     private Attributes(Builder builder) {
-        attributes = Objects.requireNonNull(builder.attributes);
+        attributes = builder.attributes;
     }
     
     public Stream<Attribute> attributes() {

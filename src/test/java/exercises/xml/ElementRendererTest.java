@@ -10,6 +10,7 @@ import org.junit.Test;
 import xml.model.Attributes;
 import xml.model.TextElement;
 import xml.model.XmlElement;
+import xml.model.XmlElementWithChildren;
 
 @Ignore
 public class ElementRendererTest {
@@ -51,7 +52,7 @@ public class ElementRendererTest {
 
     @Test
     public void testElementWithAttributeAndText() {
-        XmlElement element = new XmlElement.Builder()
+        XmlElementWithChildren element = new XmlElementWithChildren.Builder()
                 .withName("testElement")
                 .withAttributes(Attributes.of("foo", "bar"))
                 .withChild(TextElement.of("some text"))
@@ -73,10 +74,11 @@ public class ElementRendererTest {
         XmlElement element = new XmlElement.Builder()
                 .withName("testElement")
                 .withAttributes(Attributes.of("foo", "bar"))
-                .withChild(TextElement.of("some text"))
                 .build();
+        
+        element = element.withChild(TextElement.of("some text"));
 
-        XmlElement subElement = new XmlElement.Builder()
+        XmlElementWithChildren subElement = new XmlElementWithChildren.Builder()
                 .withName("subElement1")
                 .withAttributes(Attributes.of("name", "fred"))
                 .withChild(TextElement.of("more text"))
@@ -84,11 +86,11 @@ public class ElementRendererTest {
         
         element = element.withChild(subElement);
         
-        subElement = new XmlElement.Builder()
+        XmlElement subElement2 = new XmlElement.Builder()
                 .withName("subElement2")
                 .build();
         
-        element = element.withChild(subElement);
+        element = element.withChild(subElement2);
         
         String answer = element.accept(new ElementRenderer())
                 .collect(Collectors.joining("\n"));

@@ -10,6 +10,7 @@ import xml.model.PublicDocType;
 import xml.model.SystemDocType;
 import xml.model.TextElement;
 import xml.model.XmlElement;
+import xml.model.XmlElementWithChildren;
 
 public class DocumentRendererTest {
 
@@ -59,7 +60,7 @@ public class DocumentRendererTest {
 
     @Test
     public void testDocumentAttributeAndText() {
-        XmlElement element = new XmlElement.Builder()
+        XmlElementWithChildren element = new XmlElementWithChildren.Builder()
                 .withName("testElement")
                 .withAttributes(Attributes.of("foo", "bar"))
                 .withChild(TextElement.of("some text"))
@@ -87,13 +88,13 @@ public class DocumentRendererTest {
     
     @Test
     public void textComplexDocument() {
-        XmlElement element = new XmlElement.Builder()
+        XmlElementWithChildren element = new XmlElementWithChildren.Builder()
                 .withName("testElement")
                 .withAttributes(Attributes.of("foo", "bar"))
                 .withChild(TextElement.of("some text"))
                 .build();
 
-        XmlElement subElement = new XmlElement.Builder()
+        XmlElementWithChildren subElement = new XmlElementWithChildren.Builder()
                 .withName("subElement1")
                 .withAttributes(Attributes.of("name", "fred"))
                 .withChild(TextElement.of("more text"))
@@ -101,11 +102,11 @@ public class DocumentRendererTest {
         
         element = element.withChild(subElement);
         
-        subElement = new XmlElement.Builder()
+        XmlElement subElement2 = new XmlElement.Builder()
                 .withName("subElement2")
                 .build();
         
-        element = element.withChild(subElement);
+        element = element.withChild(subElement2);
         
         PublicDocType docType = new PublicDocType.Builder()
                 .withDtdLocation("example.dtd")

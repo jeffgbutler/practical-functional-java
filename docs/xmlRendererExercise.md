@@ -11,7 +11,7 @@ This exercise demonstrates building a complex system based solely on small funct
 
 In this exercise we will guide you through the creation of a full XML renderer starting from very small functions. You should not think that you can arrive at a solution like this from the very start without practice.  The solution we will implement is the result of many refactorings during the development of the exercise.  Our hope is that when you see the solution presented here it will spur your imagination towards refactoring your own code.
 
-In our solution, almost every function is one line long (meaning one semicolon), and there is only one if statement. All functions are pure and there is no external state. 
+In our solution, almost every function is one line long (meaning one semicolon). All functions are pure and there is no external state. 
 
 ## Objectives:
 
@@ -30,8 +30,9 @@ The classes in the `xml.model` package implement a simple XML model.  A `Documen
 
 An `XmlElement`:
 
-1. May or may not have `Attributes`.  `Attributes` are a list of `Attribute` classes. An `Attribute` is a name-value pair.
-2. May or may not have child elements.  Child elements may be either another `XmlElement` or a `TextElement`.  `XmlElements` may be nested to any depth.
+1. Has a name
+2. May or may not have `Attributes`.  `Attributes` contains a list of `Attribute` classes. An `Attribute` is a name-value pair.
+3. May or may not have child elements - if it has child it will be an instance of `XmlElementWithChildren`.  Child elements may be either `XmlElement`, `XmlElementWithChildren`, or `TextElement`.  `XmlElements` may be nested to any depth.
 
 ### What's Up With the Visitors?
 There are two visitors `DocTypeVisitor` and `ElementVisitor`.
@@ -68,24 +69,24 @@ The goal is to make all the tests in `src/test/java/exercises/xml` pass.  You wi
    - This method is very simple should return a `Stream<String>` consisting of the content of the `TextElement`
    - Finishing this method should resolve one failing test.
 
-6. (M) Complete the method `exercises.xml.ElementRenderer.renderElementWithoutChildren(XmlElement)`
+6. (M) Complete the method `exercises.xml.ElementRenderer.visit(XmlElement)`
    - This method should return a `Stream<String>` containing just one String - the rendered `XmlElement` as something like `<foo name="value" />`.  The method is simple string concatenation with one difficulty: the element may or may not have `Attributes`.  Here's how we suggest handling this difficulty:
       - Create a private method `String renderAttributes(Attributes)` that returns a string composed of a single space concatenated with the results of calling the `AttributeRenderer` method from step #2 above.
       - Create another private method `String renderAttributes(XmlElement)` that returns the results of the above method if the `XmlElement` has attributes, else returns an empty string. This method should use a method reference to the method above (Hint: `Optional.map` and `Optional.orElse` are useful here)
    - Finishing these methods should resolve two failing tests.
 
-7. (L) Complete the method `exercises.xml.ElementRenderer.renderElementWithChildren(XmlElement)`
+7. (L) Complete the method `exercises.xml.ElementRenderer.visit(XmlElementWithChildren)`
    - This method should a `Stream<String>` with:
       - An XML open tag (may or may not have attributes)
       - The rendered child elements indented two spaces
       - An XML close tag
    - Making this method work will require several supporting methods.  We suggest the following supporting methods:
-      - Create a method `Stream<String> renderOpen(XmlElement)` that returns a stream consisting of a single String - the rendered XML open tag.  This method is very similar to the `renderElementWithoutChildren` method with the difference that it does not return a closed tag
+      - Create a method `Stream<String> renderOpen(XmlElement)` that returns a stream consisting of a single String - the rendered XML open tag.  This method is very similar to the `visit(XmlElement)` method with the difference that it does not return a closed tag
       - Create a method `Stream<String> renderClose(XmlElement)` that returns a stream consisting of a single String - the rendered XML close tag.  This is simple string concatenation.
-      - Create a method `Stream<String> renderChild(VisitableElement element)` that renders an element. This method should call the `accept` method on the `element` and pass `this`.  This is essentially a recursive call into the same visitor.
+      - Create a method `Stream<String> renderChild(VisitableElement element)` that renders an element. This method should call the `accept` method on the `element` and pass `this`.  This is essentially a recursive call into the visitor.
       - Create a method `String indent(String s)` that returns the input String with two spaces appended at the beginning (simple string concatenation)
-      - Create a method `Stream<String> renderChildren(XmlElement)` that renders each child element of the  `XmlElement` and indents the results. Hints: This method should have method references to the `renderChild` and `indent` methods created earlier.  Also remember that `Stream.flatMap` will turn a stream of streams into a flattened stream.
-   - Finally, complete the `renderElementWithChidren` by `Stream<String>` that adds the Open tag, rendered children, and the close tag.  Hints: again, this is a place for `flatMap` and also remember that `Function.identity()` is a function that returns whatever is input into the function.
+      - Create a method `Stream<String> renderChildren(XmlElementWithChildren)` that renders each child element of the  `XmlElement` and indents the results. Hints: This method should have method references to the `renderChild` and `indent` methods created earlier.  Also remember that `Stream.flatMap` will turn a stream of streams into a flattened stream.
+   - Finally, complete the `visit(XmlElementWithChidren)` method by returning a `Stream<String>` that adds the Open tag, rendered children, and the close tag.  Hints: again, this is a place for `flatMap` and also remember that `Function.identity()` is a function that returns whatever is input into the function.
    - Finishing these methods should resolve two failing tests.
 
 8. (M) Complete the method `exercises.xml.DocumentRenderer.render(Document)`
@@ -101,4 +102,4 @@ The goal is to make all the tests in `src/test/java/exercises/xml` pass.  You wi
       - ">"
    - Create a method `Stream<String> renderRootElement(Document)` that renders the root element by calling the `accept` method with visitor completed in steps #5-#7 above
    - Finally finish the `render(Document)` method by concatenating the XML header, DocType, and rendered root element and adding a newline character (`\n`) after each string.  This will be a Stream of streams, flattened, then collected.
-   - Finishing these methods should resolve four failing tests.
+   - Finishing these methods should resolve the remaining four failing tests.

@@ -7,6 +7,7 @@ import xml.model.ElementVisitor;
 import xml.model.TextElement;
 import xml.model.VisitableElement;
 import xml.model.XmlElement;
+import xml.model.XmlElementWithChildren;
 
 public class ElementRenderer implements ElementVisitor<Stream<String>> {
 
@@ -17,30 +18,14 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
 
     @Override
     public Stream<String> visit(XmlElement element) {
-        if (element.hasChildren()) {
-            return renderElementWithChildren(element);
-        } else {
-            return renderElementWithoutChildren(element);
-        }
-    }
-
-    private Stream<String> renderElementWithoutChildren(XmlElement element) {
         return Stream.of("<"
                 + element.name()
                 + renderAttributes(element)
                 + " />");
     }
 
-    private String renderAttributes(XmlElement element) {
-        return element.attributes().map(this::renderAttributes)
-                .orElse("");
-    }
-    
-    private String renderAttributes(Attributes attributes) {
-        return " " + new AttributeRenderer().renderAttributes(attributes);
-    }
-
-    private Stream<String> renderElementWithChildren(XmlElement element) {
+    @Override
+    public Stream<String> visit(XmlElementWithChildren element) {
         // can also do this with Stream concatenation and make a deeply nested
         // lazy stream.  But there is a caution against doing that in the
         // JavaDocs for Stream.concat
@@ -50,6 +35,16 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
                 .flatMap(s -> s);  // Function.identity() works here too
     }
     
+    
+    private String renderAttributes(XmlElement element) {
+        return element.attributes().map(this::renderAttributes)
+                .orElse("");
+    }
+    
+    private String renderAttributes(Attributes attributes) {
+        return " " + new AttributeRenderer().renderAttributes(attributes);
+    }
+
     private Stream<String> renderOpen(XmlElement element) {
         return Stream.of("<"
                 + element.name()
@@ -57,7 +52,7 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
                 + " >");
     }
     
-    private Stream<String> renderChildren(XmlElement element) {
+    private Stream<String> renderChildren(XmlElementWithChildren element) {
         return element.children()
                 .flatMap(this::renderChild)
                 .map(this::indent);

@@ -1,11 +1,13 @@
 package xml.model;
 
+import java.util.Objects;
+
 public class TextElement implements VisitableElement {
     
     private String content;
 
     private TextElement(String content) {
-        this.content = content;
+        this.content = Objects.requireNonNull(content);
     }
 
     public String content() {

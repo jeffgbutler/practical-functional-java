@@ -1,10 +1,12 @@
 package xml.model;
 
+import java.util.Objects;
+
 public abstract class AbstractDocType {
     private String dtdLocation;
     
     protected AbstractDocType(AbstractBuilder<?> builder) {
-        this.dtdLocation = builder.dtdLocation;
+        this.dtdLocation = Objects.requireNonNull(builder.dtdLocation);
     }
     
     public String dtdLocation() {
