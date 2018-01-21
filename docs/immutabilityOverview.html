@@ -143,6 +143,35 @@ public final class SimpleImmutableObjectWithBuilder {
       </section>
       
       <section>
+        Convenience "of" Methods
+        <pre>
+          <code class="java">
+public final class SimpleImmutableObjectWithBuilder {
+    ...
+    
+    public static SimpleImmutableObjectWithBuilder of(Integer id, String description) {
+        return new Builder()
+                .withId(id)
+                .withDescription(description)
+                .build();
+    }
+}
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Instantiating With an "of" Method
+        <pre>
+          <code class="java">
+SimpleImmutableObjectWithBuilder myObject = SimpleImmutableObjectWithBuilder.of(3, "A Number");
+          </code>
+        </pre>
+        <p>These "of" convenience methods can make immutable objects easier to use. You could write several methods
+           like this to handle common cases.</p>
+      </section>
+
+      <section>
         Fluent Builder Pattern - How to Handle Optionals
         <pre>
           <code class="java" style="max-height: 550px">
