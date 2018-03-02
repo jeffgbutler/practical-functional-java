@@ -64,7 +64,7 @@
       </section>
 
       <section>
-        <p>Kotlin is one of the most Java things ever to happen to Java</p>
+        <p>Kotlin is one of the most Java-ish things ever to happen to Java</p>
         <p>What do I mean?</p>
       </section>
       
@@ -90,28 +90,28 @@
             <td>Cross platform capabilities of the JVM</td>
           </tr>
           <tr>
-            <th>Developer Attitude</th>
+            <th>Community Attitude</th>
             <td>Inclined to trust Microsoft and de-emphasize vendor independence</td>
             <td>Inclined to distrust Sun/Oracle/IBM/etc. and emphasize vendor independence</td>
           </tr>
         </table>
       </section>
-      
+
       <section>
-        <h3>Java developers are grumpy...</h3>
+        <h3>Java developers are skeptical...</h3>
         <ul>
-          <li>We hate the date/time API -> JodaTime</li>
-          <li>We hate Core J2EE Patterns, EJBs, and JSF -> Spring Framework</li>
-          <li>We hate Entity EJBs -> Hibernate</li>
-          <li>We hate WebSphere -> JBoss</li>
-          <li>We hate the Java language...</li>
+          <li>We dislike the date/time API -> JodaTime</li>
+          <li>We dislike Core J2EE Patterns, EJBs, and JSF -> Spring Framework</li>
+          <li>We dislike Entity EJBs -> Hibernate</li>
+          <li>We dislike WebSphere -> JBoss</li>
+          <li>We dislike the Java language...</li>
         </ul>
       </section>
-      
+
       <section>
-        <h3>Other Significant JVM Languages</h3>
+        <h3>Other JVM Languages</h3>
         <ul>
-          <li>Groovy (Dynamic). Pivotal donated to Apache where projects go to die</li>
+          <li>Groovy (Dynamic) - Pivotal donated to Apache where projects go to die</li>
           <li>Clojure (Lisp on JVM)</li>
           <li>Scala (static types, functional, weird)</li>
           <li>Dozens more</li>
@@ -121,19 +121,25 @@
       
       <section>
         <h3>Along Comes Kotlin</h3>
-        <p>One night after several beers, some JetBrains folks decide they have
-          finally had enough of the Java language. They figure they can build something better.</p> 
+        <p>I dream that late one night, some JetBrains folks decide they have
+          finally had enough of Java's lethargy. They figure they can build something better.</p> 
+      </section>
+      
+      <section>
+        <h3>Kotlin Milestones</h3>
         <ul>
-          <li>Announced by JetBrains in 2011</li>
-          <li>Open Sourced with Apache license in February 2012</li>
-          <li>Kotlin 1.0 Announced 2/15/2016</li>
-          <li>At Google I/O in 2017, Google announced first class support for Kotlin on Android</li>
-          <li>At SpringOne in December 2017, Pivotal announced first class support for Kotlin in Spring Development</li>  
+          <li>July 2011: Announced by JetBrains</li>
+          <li>February 2012: Open Sourced with Apache license</li>
+          <li>February 2016: Kotlin 1.0 Announced</li>
+          <li>March 2017: Kotlin 1.1 - JavaScript target environment</li>
+          <li>May 2017: Google announces first class support for Kotlin on Android</li>
+          <li>November 2017: Kotlin 1.2 - Shared Code Between JVM and JS</li>
+          <li>December 2017: Pivotal announces first class support for Kotlin in Spring Development</li>  
         </ul>
       </section>
 
       <section>
-        <p>We've finally gotten grumpy enough about Java that we've replaced it.</p>
+        <p>We've finally gotten skeptical enough about Java that we've replaced it.</p>
       </section>
             
       <section>
@@ -144,6 +150,16 @@
           <li>Seamless Java interop (the killer feature)</li>
           <li>Makes Android development less painful (Android is the killer app for Kotlin)</li>
           <li>JDK 6!</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>Building Kotlin</h3>
+        <ul>
+          <li>Same structure as Java - packages, classes, etc.</li>
+          <li>Builds with Maven/Gradle/Ant</li>
+          <li>Java and Kotlin can live side by side in the same project</li>
+          <li></li>
         </ul>
       </section>
       
@@ -344,7 +360,7 @@
         <pre>
           <code class="kotlin">
     @Test
-    fun lambdaTest0() {
+    fun `simple lambda`() {
         val names = listOf("Fred", "Wilma", "Barney", "Betty")
 
         var str = names.filter ({ s -> s.startsWith("B") })
@@ -360,7 +376,7 @@
         <pre>
           <code class="kotlin">
     @Test
-    fun lambdaTest1() {
+    fun `lambda with it`() {
         val names = listOf("Fred", "Wilma", "Barney", "Betty")
 
         var str = names.filter({ it.startsWith("B") })
@@ -377,7 +393,7 @@
         <pre>
           <code class="kotlin">
     @Test
-    fun lambdaTest2() {
+    fun `lambda pipeline`() {
         val names = listOf("Fred", "Wilma", "Barney", "Betty")
 
         var str = names.filter({ it.startsWith("B") })
@@ -390,11 +406,11 @@
       </section>
       
       <section>
-        <h3>Lambda with Transform</h3>
+        <h3>Combination Functions</h3>
         <pre>
           <code class="kotlin">
     @Test
-    fun lambdaTest3() {
+    fun `lambda combination functions`() {
         val names = listOf("Fred", "Wilma", "Barney", "Betty")
 
         var str = names.filter({ it.startsWith("B") })
@@ -410,7 +426,7 @@
         <pre>
           <code class="kotlin">
     @Test
-    fun lambdaTest4() {
+    fun `lambda outside parenthesis`() {
         val names = listOf("Fred", "Wilma", "Barney", "Betty")
 
         var str = names.filter { it.startsWith("B") }
@@ -427,7 +443,7 @@
         <pre>
           <code class="kotlin">
     @Test
-    fun lambdaTest5() {
+    fun `method references`() {
         val names = listOf("Fred", "Wilma", "Barney", "Betty")
 
         var str = names.filter { it.startsWith("B") }
@@ -444,7 +460,7 @@
         <pre>
           <code class="kotlin">
     @Test
-    fun lambdaTest6() {
+    fun `function variables and local functions`() {
         val upperCase = { s: String -> s.toUpperCase() }  // function variable
         fun String.startsWithB() = startsWith("B")  // local extension function
 
@@ -464,7 +480,7 @@
         <pre>
           <code class="kotlin">
     @Test
-    fun lambdaTest7() {
+    fun `higher order functions`() {
         val names = listOf("Fred", "Wilma", "Barney", "Betty")
 
         var str = names.filter { it.startsWith("B") }
@@ -478,13 +494,6 @@
         </pre>
       </section>
       
-      <section>
-        <h3>Pimp My Library</h3>
-        <p>An interesting use case for Kotlin...</p>
-        <p>Use extension functions, operator overloading, and infix calls to modernize the API of an older
-           Java library</p> 
-      </section>
-
       <section>
         <h3>Type Safe Builders and DSL Construction</h3>
         <p>The "crown jewel" of Kotlin.  Uses "clean syntax" features to create a natural looking DSL</p>
@@ -538,7 +547,12 @@ fun result(args: Array&lt;String&gt;) =
       <section>
         <h3>Next Steps</h3>
         <ul>
-          <li>Install IntelliJ IDEA (community edition is OK): https://www.jetbrains.com/idea/download/</li>
+          <li>Install an IDE
+            <ul>
+              <li>IntelliJ IDEA (community edition is OK)</li>
+              <li>Eclipse with JetBrains Kotlin Plugin</li>
+            </ul>
+          </li>
           <li>Do the Kotlin Koans workshop: https://github.com/Kotlin/kotlin-koans</li>
           <li>RTFM: https://kotlinlang.org/docs/reference/</li>
           <li>"Kotlin in Action" - decent book</li>
