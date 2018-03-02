@@ -1,0 +1,569 @@
+<html>
+<head>
+<title>Practical Functional Java</title>
+<link rel="stylesheet" href="reveal.js-3.6.0/css/reveal.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/css/theme/moon.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/obsidian.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Practical Functional Java</h2>
+        <h3>Kotlin Overview</h3>
+        <h4>Jeff Butler</h4>
+        <p>https://github.com/jeffgbutler/practical-functional-java</p>
+        <p>https://jeffgbutler.github.io/practical-functional-java/</p>
+      </section>
+
+      <section>
+        <h3>My Dilemma</h3>
+        <p>How do I teach a new programming language in an hour?</p>
+        <p>Answer - I don't</p>
+        <p>This talk is about why I think Kotlin is important, but we will see some code too</p> 
+      </section>
+      
+      <section>
+        <h3>Java is not about Java</h3>
+        <blockquote>
+          "Most people talk about Java the language, and this may sound odd coming from me, but I could
+          hardly care less. At the core of the Java ecosystem is the JVM."
+        </blockquote>
+        <blockquote>
+          James Gosling, Creator of the Java Programming Language(2011, TheServerSide.com)
+        </blockquote>
+      </section>
+      
+      <section>
+        <h3>What's Right with Java?</h3>
+        <ul>
+          <li>The JVM runs on virtually every platform - from your credit card to the largest mainframe</li>
+          <li>Cross platform compatibility has been a hallmark of Java from the very beginning</li>
+          <li>Sun, Oracle, and IBM have invested heavily to ensure a highly stable and performant runtime</li>
+          <li>Virtually all large systems are written in Java</li>
+          <li>The open source movement flourished with Java</li>
+          <li>Many important architectural concepts in use today have come from the Java/Open Source space</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>What's Wrong with Java?</h3>
+        <ul>
+          <li>Many Java code bases are unmitigated disasters</li>
+          <li>Many Java "developers" are undisciplined hacks</li>
+          <li>Enterprise systems - EJBs, WebSphere, etc.</li>
+          <li>The Java language suffered from years of inattention</li>
+          <li>Java 8 is great, but very late and many clients have not upgraded</li>
+        </ul>
+        <blockquote>
+         Java is a good language...there are some issues...you can make things as God awful as you want...
+         it does allow people to create incredible messes (Gosling) 
+        </blockquote>
+      </section>
+
+      <section>
+        <p>Kotlin is one of the most Java things ever to happen to Java</p>
+        <p>What do I mean?</p>
+      </section>
+      
+      <section>
+        <h3>Java vs .Net</h3>
+        <p>The debate used to be framed like this...</p>
+        <blockquote>Single Language/Multi Platform (Java) vs. Multi Language/Single Platform (.Net)</blockquote>
+        <p>This is a straw man.  Both have been multi language multi platform from almost the beginning.</p>
+        <p>The distinction is...where is the emphasis?</p> 
+      </section>
+      
+      <section>
+        <h3>My Opinion...</h3>
+        <table class="reveal">
+          <tr>
+            <th>&nbsp;</th>
+            <th>.Net</th>
+            <th>Java</th>
+          </tr>
+          <tr>
+            <th>Emphasis</th>
+            <td>A beautiful experience on Windows</td>
+            <td>Cross platform capabilities of the JVM</td>
+          </tr>
+          <tr>
+            <th>Developer Attitude</th>
+            <td>Inclined to trust Microsoft and de-emphasize vendor independence</td>
+            <td>Inclined to distrust Sun/Oracle/IBM/etc. and emphasize vendor independence</td>
+          </tr>
+        </table>
+      </section>
+      
+      <section>
+        <h3>Java developers are grumpy...</h3>
+        <ul>
+          <li>We hate the date/time API -> JodaTime</li>
+          <li>We hate Core J2EE Patterns, EJBs, and JSF -> Spring Framework</li>
+          <li>We hate Entity EJBs -> Hibernate</li>
+          <li>We hate WebSphere -> JBoss</li>
+          <li>We hate the Java language...</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>Other Significant JVM Languages</h3>
+        <ul>
+          <li>Groovy (Dynamic). Pivotal donated to Apache where projects go to die</li>
+          <li>Clojure (Lisp on JVM)</li>
+          <li>Scala (static types, functional, weird)</li>
+          <li>Dozens more</li>
+        </ul>
+        <p>Virtually none of these have gained significant traction</p>
+      </section>
+      
+      <section>
+        <h3>Along Comes Kotlin</h3>
+        <p>One night after several beers, some JetBrains folks decide they have
+          finally had enough of the Java language. They figure they can build something better.</p> 
+        <ul>
+          <li>Announced by JetBrains in 2011</li>
+          <li>Open Sourced with Apache license in February 2012</li>
+          <li>Kotlin 1.0 Announced 2/15/2016</li>
+          <li>At Google I/O in 2017, Google announced first class support for Kotlin on Android</li>
+          <li>At SpringOne in December 2017, Pivotal announced first class support for Kotlin in Spring Development</li>  
+        </ul>
+      </section>
+
+      <section>
+        <p>We've finally gotten grumpy enough about Java that we've replaced it.</p>
+      </section>
+            
+      <section>
+        <h3>Why Kotlin?</h3>
+        <ul>
+          <li>Kotlin is not an academic language - it is practical</li>
+          <li>Kotlin does not make you change the way you think (unlike Scala and Clojure)</li>
+          <li>Seamless Java interop (the killer feature)</li>
+          <li>Makes Android development less painful (Android is the killer app for Kotlin)</li>
+          <li>JDK 6!</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>Syntax Sugar</h3>
+        <p>In some ways, Kotlin is the most syntax sugary thing ever invented</p>
+        <p>But it's good sugar</p>
+        <p>All high level languages are just syntax sugar for assembler anyway - so get over it :)</p>
+      </section>
+      
+      <section>
+        <h3>Kotlin Language Features</h3>
+        <ul>
+          <li>Semicolons are optional and discouraged</li>
+          <li>Codifies Many Conventions leading to more concise code</li>
+          <li>Type inference</li>
+          <li>Lambdas before Java 8</li>
+          <li>Null Safety</li>
+          <li>Pimp my library</li>
+          <li>DSL Construction</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>Kotlin Orientation</h3>
+        <p>Now we'll look at some code...</p>
+      </section>
+
+      <section>
+        <h3>Variable Declaration</h3>
+        <pre>
+          <code class="kotlin">
+    val foo = "Fred"  // String type inferred, immutable
+    var bar = "Barney"  // String type inferred, mutable, non-nullable
+    var baz: String? = "Betty" // String type, mutable, nullable
+          </code>
+        </pre>
+      </section>
+            
+      <section>
+        <h3>Data Classes</h3>
+        <pre>
+          <code class="kotlin">
+    data class Person(val firstName : String, val lastName : String)
+          </code>
+        </pre>
+        <p align="left">This class ...</p>
+        <ul>
+          <li>is public, final</li>
+          <li>is null safe</li>
+          <li>is immutable</li>
+          <li>has getters, toString, equals, hashCode</li>
+          <li>has copy functions</li>
+          <li>has destructuring functions</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>Sealed Classes</h3>
+        <pre>
+          <code class="kotlin">
+  // all sealed classes must be in the same file...
+  sealed class Animal(val name: String)
+  class Dog(name: String, val akcNumber: Int) : Animal(name)
+  class Cat(name: String, val cfaNumber: Int) : Animal(name)
+
+  fun speak(animal: Animal): String {
+      return when (animal) {
+          is Dog -> "Bark"
+          is Cat -> "Meow"
+          // no otherwise/else!
+      }
+  }
+
+  var myDog = Dog("Bob Barker", 22)
+  var talk = speak(myDog)
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Extension Functions and Smart Casting</h3>
+        <pre>
+          <code class="kotlin">
+  sealed class Animal(val name: String)
+  class Dog(name: String, val akcNumber: Int) : Animal(name)
+  class Cat(name: String, val cfaNumber: Int) : Animal(name)
+
+  fun Animal.speak(): String {
+      return when (this) {
+          is Dog -> "Bark! My name is $name and my number is $akcNumber"
+          is Cat -> "Meow! My name is $name and my number is $cfaNumber"
+      }
+  }
+
+  var myDog = Dog("Bob Barker", 22)
+  var talk = myDog.speak()
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Singleton Support</h3>
+        <pre>
+          <code class="kotlin">
+  object FearlessLeader {
+      val firstName = "Gregg"
+      val lastName = "Gallant"
+  }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Named Parameters, Default Parameters, Safe Navigation, Elvis</h3>
+        <pre>
+          <code class="kotlin">
+  class Address(val line1: String, val line2: String? = null)
+  class Person(val name: String, val homeAddress: Address, val workAddress: Address? = null)
+
+  val bob = Person(homeAddress = Address("Main Street"), name = "Bob")
+  val bobsWorkAddress1: String? = bob.workAddress?.line2  // type can be inferred
+  val bobsWorkAddress2: String = bob.workAddress?.line2 ?: "" // type can be inferred
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>String Templates</h3>
+        <pre>
+          <code class="kotlin">
+  val bob = Person(homeAddress = Address("Main Street"), name = "Bob")
+
+  val bobString1 = "My name is ${bob.name}, my home address is ${bob.homeAddress.line1}"
+
+  val bobString2 = """|My name is "${bob.name}"
+                      |  My home address is ${bob.homeAddress.line1}""".trimMargin()
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Operator Overloading</h3>
+        <pre>
+          <code class="kotlin">
+  class BankAccount (var balance: Double = 0.0){
+      operator fun plusAssign(amount: Double) {  // overloads +=
+          balance += amount
+      }
+  }
+  
+  val myAccount = BankAccount()
+  myAccount.plusAssign(22.0)  // non overloaded call
+  myAccount += 22.0  // over loaded call
+          </code>
+        </pre>
+        <p align="left">Many operators can be overloaded - some in very clever ways.  For example, if a class
+        implements <code>Comparable</code>, you get &lt;, &gt;, &lt;=, &gt;= for free.</p>
+        <p align="left">New operators cannot be defined...except infix...</p> 
+      </section>
+      
+      <section>
+        <h3>Infix Functions</h3>
+        <pre>
+          <code class="kotlin">
+  class BankAccount (var balance: Double = 0.0){
+      infix fun deposit(amount: Double) {
+          this.plusAssign(amount)
+          balance += amount
+      }
+  
+      infix fun `!&amp;%`(amount: Double) {
+          balance -= amount
+      }
+  }
+  
+  val myAccount = BankAccount()
+  myAccount.deposit(22.0)  // non infix call
+  myAccount deposit 22.0  // infix call
+  myAccount `!&amp;%` 33.0
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Overview of Lambdas</h3>
+        <ul>
+          <li>Implemented via extension functions on the standard Java collections</li>
+          <li>Not lazy by default - so this is purely a declarative vs. imperative thing</li>
+          <li>Can be made lazy-ish</li>
+          <li>Works in Java 6</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>Simple Lambda</h3>
+        <pre>
+          <code class="kotlin">
+    @Test
+    fun lambdaTest0() {
+        val names = listOf("Fred", "Wilma", "Barney", "Betty")
+
+        var str = names.filter ({ s -> s.startsWith("B") })
+                .joinToString(",")
+        assertThat(str).isEqualTo("Barney,Betty")
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Simple Lambda With "it"</h3>
+        <pre>
+          <code class="kotlin">
+    @Test
+    fun lambdaTest1() {
+        val names = listOf("Fred", "Wilma", "Barney", "Betty")
+
+        var str = names.filter({ it.startsWith("B") })
+                .joinToString(",")
+        assertThat(str).isEqualTo("Barney,Betty")
+    }
+          </code>
+        </pre>
+        <p align="left">Note the "it" variable name</p>
+      </section>
+      
+      <section>
+        <h3>Lambda Pipeline</h3>
+        <pre>
+          <code class="kotlin">
+    @Test
+    fun lambdaTest2() {
+        val names = listOf("Fred", "Wilma", "Barney", "Betty")
+
+        var str = names.filter({ it.startsWith("B") })
+                .map({ it.toUpperCase() })
+                .joinToString(",")
+        assertThat(str).isEqualTo("BARNEY,BETTY")
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Lambda with Transform</h3>
+        <pre>
+          <code class="kotlin">
+    @Test
+    fun lambdaTest3() {
+        val names = listOf("Fred", "Wilma", "Barney", "Betty")
+
+        var str = names.filter({ it.startsWith("B") })
+                .joinToString(",", transform = { it.toUpperCase() })
+        assertThat(str).isEqualTo("BARNEY,BETTY")
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Lambda Outside Parenthesis</h3>
+        <pre>
+          <code class="kotlin">
+    @Test
+    fun lambdaTest4() {
+        val names = listOf("Fred", "Wilma", "Barney", "Betty")
+
+        var str = names.filter { it.startsWith("B") }
+                .map { it.toUpperCase() }
+                .joinToString(",")
+        assertThat(str).isEqualTo("BARNEY,BETTY")
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Method Reference</h3>
+        <pre>
+          <code class="kotlin">
+    @Test
+    fun lambdaTest5() {
+        val names = listOf("Fred", "Wilma", "Barney", "Betty")
+
+        var str = names.filter { it.startsWith("B") }
+                .map(String::toUpperCase)
+                .joinToString(",")
+        assertThat(str).isEqualTo("BARNEY,BETTY")
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Function Variables</h3>
+        <pre>
+          <code class="kotlin">
+    @Test
+    fun lambdaTest6() {
+        val transform = { s: String -> s.toUpperCase() }
+        val names = listOf("Fred", "Wilma", "Barney", "Betty")
+
+        var str = names.filter { it.startsWith("B") }
+                .map(transform)
+                .joinToString(",")
+        assertThat(str).isEqualTo("BARNEY,BETTY")
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Higher Order Functions</h3>
+        <pre>
+          <code class="kotlin">
+    @Test
+    fun lambdaTest7() {
+        val names = listOf("Fred", "Wilma", "Barney", "Betty")
+
+        var str = names.filter { it.startsWith("B") }
+                .map(getTransform())
+                .joinToString(",")
+        assertThat(str).isEqualTo("BARNEY,BETTY")
+    }
+
+    private fun getTransform(): (String) -> String = { it.toUpperCase() }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <h3>Pimp My Library</h3>
+        <p>An interesting use case for Kotlin...</p>
+        <p>Use extension functions, operator overloading, and infix calls to modernize the API of an older
+           Java library</p> 
+      </section>
+
+      <section>
+        <h3>Type Safe Builders and DSL Construction</h3>
+        <p>The "crown jewel" of Kotlin.  Uses "clean syntax" features to create a natural looking DSL</p>
+        <ul>
+          <li>Extension Functions</li>
+          <li>Operator overloading</li>
+          <li>Infix calls</li>
+          <li>Lambdas Outside Parenthesis</li>
+          <li>Functions with Receivers (some other talk)</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>DSL Example</h3>
+        <pre>
+          <code class="kotlin">
+fun result(args: Array&lt;String&gt;) =
+    html {
+        head {
+            title {+"XML encoding with Kotlin"}
+        }
+        body {
+            h1 {+"XML encoding with Kotlin"}
+            p  {+"this format can be used as an alternative markup to XML"}
+
+            a(href = "http://kotlinlang.org") {+"Kotlin"}
+
+            p {
+                +"This is some"
+                b {+"mixed"}
+                +"text. For more see the"
+                a(href = "http://kotlinlang.org") {+"Kotlin"}
+                +"project"
+            }
+            p {+"some text"}
+
+            p {
+                for (arg in args)
+                    +arg
+            }
+        }
+    }
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        <img src="images/Mind-blown.jpg">
+      </section>
+      
+      <section>
+        <h3>Next Steps</h3>
+        <ul>
+          <li>Install IntelliJ IDEA (community edition is OK): https://www.jetbrains.com/idea/download/</li>
+          <li>Do the Kotlin Koans workshop: https://github.com/Kotlin/kotlin-koans</li>
+          <li>RTFM: https://kotlinlang.org/docs/reference/</li>
+          <li>"Kotlin in Action" - decent book</li>
+          <li>Look for seams where Kotlin can fit in to our existing clients</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <script src="reveal.js-3.6.0/lib/js/head.min.js"></script>
+  <script src="reveal.js-3.6.0/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+        slideNumber: 'c/t',
+        dependencies: [
+            // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+            { src: 'reveal.js-3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+            // Syntax highlight for <code> elements
+            { src: 'reveal.js-3.6.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+            // Zoom in and out with Alt+click
+            { src: 'reveal.js-3.6.0/plugin/zoom-js/zoom.js', async: true },
+
+            // Speaker notes
+            { src: 'reveal.js-3.6.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+  </script>
+</body>
+</html>
