@@ -311,7 +311,6 @@
           <code class="kotlin">
   class BankAccount (var balance: Double = 0.0){
       infix fun deposit(amount: Double) {
-          this.plusAssign(amount)
           balance += amount
       }
   
@@ -331,9 +330,11 @@
       <section>
         <h3>Overview of Lambdas</h3>
         <ul>
-          <li>Implemented via extension functions on the standard Java collections</li>
-          <li>Not lazy by default - so this is purely a declarative vs. imperative thing</li>
-          <li>Can be made lazy-ish</li>
+          <li>Kotlin has "proper" function types - no weird SAM interfaces like Java 8</li>
+          <li>Kotlin can interact with Java SAM interfaces mostly automatically</li>
+          <li>Map/Filter/Reduce implemented via extension functions on the standard Java collections</li>
+          <li>Not lazy by default - so this is purely declarative vs. imperative</li>
+          <li>Can be made lazy</li>
           <li>Works in Java 6</li>
         </ul>
       </section>
@@ -439,16 +440,18 @@
       </section>
       
       <section>
-        <h3>Function Variables</h3>
+        <h3>Function Variables and Local Functions</h3>
         <pre>
           <code class="kotlin">
     @Test
     fun lambdaTest6() {
-        val transform = { s: String -> s.toUpperCase() }
+        val upperCase = { s: String -> s.toUpperCase() }  // function variable
+        fun String.startsWithB() = startsWith("B")  // local extension function
+
         val names = listOf("Fred", "Wilma", "Barney", "Betty")
 
-        var str = names.filter { it.startsWith("B") }
-                .map(transform)
+        var str = names.filter { it.startsWithB() }
+                .map { upperCase(it) }
                 .joinToString(",")
         assertThat(str).isEqualTo("BARNEY,BETTY")
     }
@@ -465,12 +468,12 @@
         val names = listOf("Fred", "Wilma", "Barney", "Betty")
 
         var str = names.filter { it.startsWith("B") }
-                .map(getTransform())
+                .map(getUpperCaser())
                 .joinToString(",")
         assertThat(str).isEqualTo("BARNEY,BETTY")
     }
 
-    private fun getTransform(): (String) -> String = { it.toUpperCase() }
+    private fun getUpperCaser(): (String) -> String = { it.toUpperCase() }
           </code>
         </pre>
       </section>
