@@ -2,13 +2,13 @@ package exercises.xml;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import xml.model.Attribute;
 import xml.model.Attributes;
 
-@Ignore
+@Disabled
 public class AttributeRendererTest {
 
     @Test

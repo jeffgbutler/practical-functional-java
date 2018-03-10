@@ -1,37 +1,44 @@
 package solutions.basics.immutable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BasicImmutableTest {
 
-    @Test(expected=NullPointerException.class)
+    @Test
     public void testMissingFirstAndLastName() {
         // should throw a NPE because required parameters are missing
-        ImmutablePerson person = new ImmutablePerson.Builder()
-                .build();
-        assertThat(person.getFirstName()).isNull();
+        assertThatExceptionOfType(NullPointerException.class).isThrownBy(() ->{
+            ImmutablePerson person = new ImmutablePerson.Builder()
+                    .build();
+            assertThat(person.getFirstName()).isNull();
+        });
     }
     
-    @Test(expected=NullPointerException.class)
+    @Test
     public void testMissingFirstName() {
         // should throw a NPE because required parameters are missing
-        ImmutablePerson person = new ImmutablePerson.Builder()
-                .withLastName("Flintstone")
-                .build();
-        assertThat(person.getFirstName()).isNull();
+        assertThatExceptionOfType(NullPointerException.class).isThrownBy(() ->{
+            ImmutablePerson person = new ImmutablePerson.Builder()
+                    .withLastName("Flintstone")
+                    .build();
+            assertThat(person.getFirstName()).isNull();
+        });
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test
     public void testMissingLastName() {
         // should throw a NPE because required parameters are missing
-        ImmutablePerson person = new ImmutablePerson.Builder()
-                .withFirstName("Fred")
-                .build();
-        assertThat(person.getFirstName()).isEqualTo("Fred");
+        assertThatExceptionOfType(NullPointerException.class).isThrownBy(() ->{
+            ImmutablePerson person = new ImmutablePerson.Builder()
+                    .withFirstName("Fred")
+                    .build();
+            assertThat(person.getLastName()).isNull();
+        });
     }
 
     @Test
