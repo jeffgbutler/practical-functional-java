@@ -4,15 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.stream.Collectors;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import xml.model.Attributes;
 import xml.model.TextElement;
 import xml.model.XmlElement;
 import xml.model.XmlElementWithChildren;
 
-@Ignore
+@Disabled
 public class ElementRendererTest {
 
     @Test

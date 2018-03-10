@@ -1,10 +1,10 @@
 package solutions.xml;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import xml.model.Attributes;
 import xml.model.TextElement;

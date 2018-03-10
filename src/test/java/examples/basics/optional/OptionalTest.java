@@ -1,12 +1,12 @@
 package examples.basics.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OptionalTest {
 
@@ -30,12 +30,9 @@ public class OptionalTest {
         
         assertThat(emptyUpperName.isPresent()).isFalse();
         
-        try {
+        assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {
             assertThat(emptyUpperName.get()).isEqualTo("FRED");
-            fail("found a value on an empty Optional");
-        } catch (NoSuchElementException e) {
-            // ignore
-        }
+        });
     }
     
     // the filter method is used to test the value of an optional if present

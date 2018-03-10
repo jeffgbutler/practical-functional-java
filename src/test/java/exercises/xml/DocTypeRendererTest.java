@@ -2,13 +2,13 @@ package exercises.xml;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import xml.model.PublicDocType;
 import xml.model.SystemDocType;
 
-@Ignore
+@Disabled
 public class DocTypeRendererTest {
     
     private static final String DTD_NAME = "-//Example//EN";
