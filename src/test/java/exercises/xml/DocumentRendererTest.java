@@ -2,8 +2,8 @@ package exercises.xml;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import xml.model.Attributes;
 import xml.model.Document;
@@ -13,7 +13,7 @@ import xml.model.TextElement;
 import xml.model.XmlElement;
 import xml.model.XmlElementWithChildren;
 
-@Disabled
+@Ignore
 public class DocumentRendererTest {
 
     @Test
