@@ -35,11 +35,10 @@ If you experience difficulties in building the project, it might be that your wo
 4. Open VS code in the cloned code repo:
    - cd ...\practical-functional-java
    - code .
-5. Open the extensions page (ctrl-shift-X), install the following extensions
-   - Java Extension Pack (from Microsoft)
-   - Java Test Runner (from Microsoft)
-6. If you get the message from VS Code that it can't find the JDK...
+5. Open the extensions page (ctrl-shift-X), install the Java Extension Pack (from Microsoft)
+6. If you get the message from VS Code that it can't find the Java Runtime...
    - ctrl-shift-P (show all commands)
    - Open Workplace settings
-   - Add setting "java.home" = "\<your JDK location\>" (for example "C:\\\\Program Files\\\\Java\\\\jdk1.8.0_121")
+   - Add setting "java.home": "\<your JDK location\>" (for example "C:\\\\Program Files\\\\Java\\\\jdk1.8.0_121")
+   - Reload the window (ctrl-shift-P, then "Reload Window")
 7. You can run the tests by opening any Java file, then navigating through the "Test Explorer" to find a test, and then taking the "Run Test" option within the code.
