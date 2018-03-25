@@ -28,7 +28,7 @@
         <ul>
           <li>Streams are declarative</li>
           <li>Streams are to Collections as SQL is to Data</li>
-          <li>Streams can replace some very common patterns in your code.</li>
+          <li>Streams can replace some very common patterns in your code</li>
           <li>Streams require some trust - that they work better than your imperative code</li>
           <li>In my experience, the best way to learn to work with streams is to swear you will never write
               another for/do/while loop</li>
@@ -38,8 +38,8 @@
       <section>
         <h4>Laziness</h4>
         <ul>
-          <li>Streams are lazy.  This is good for ... reasons</li>
-          <li>Streams can be parallel.  This is good for ... reasons</li>
+          <li>Streams are lazy</li>
+          <li>Streams can be parallel</li>
           <li>Laziness means that intermediate operations are not executed until a terminal operation is called</li>
           <li>Typical intermediate operations are map, flatMap and filter</li>
           <li>Typical terminal operations are reduce, collect, count, min, max</li>
@@ -142,7 +142,7 @@
     public void getMap() {
         String directoryListing = getTheFlintstones()
                 .map(this::personAsString)  // Stream&lt;ImmutablePerson&gt; -> Stream&lt;String&gt;
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n")); // Returns a String joined with "\n" 
         
         String expected = "Flintstone, Fred\n"
                 + "Flintstone, Wilma\n"
