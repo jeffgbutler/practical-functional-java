@@ -1,6 +1,7 @@
 package solutions.refactoring;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,10 +40,12 @@ public class AwfulScriptGeneratorRefactoredStep4 implements ScriptGenerator {
         return Utils.stream(row)
                 .skip(1)
                 .filter(this::hasAuthority)
-                .map(c -> getInsertStatementForCell(userId, c));
+                .map(c -> getInsertStatementForCell(userId, c))
+                .filter(Optional::isPresent)
+                .map(Optional::get);
     }
 
-    private String getInsertStatementForCell(String userId, Cell cell) {
+    private Optional<String> getInsertStatementForCell(String userId, Cell cell) {
         String answer = null;
         switch (cell.getColumnIndex()) {
         case 1:
@@ -59,7 +62,7 @@ public class AwfulScriptGeneratorRefactoredStep4 implements ScriptGenerator {
             break;
         }
         
-        return answer;
+        return Optional.ofNullable(answer);
     }
     
     private boolean hasValidUserId(Row row) {

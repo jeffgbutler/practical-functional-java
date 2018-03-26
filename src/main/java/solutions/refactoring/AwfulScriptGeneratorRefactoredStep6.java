@@ -56,11 +56,14 @@ public class AwfulScriptGeneratorRefactoredStep6 implements ScriptGenerator {
         return Utils.stream(row)
                 .skip(1)
                 .filter(this::hasAuthority)
-                .map(c -> getInsertStatementForCell(userId, c));
+                .map(c -> getInsertStatementForCell(userId, c))
+                .filter(Optional::isPresent)
+                .map(Optional::get);
     }
 
-    private String getInsertStatementForCell(String userId, Cell cell) {
-        return insertBuilderForCells.get(cell.getColumnIndex()).apply(userId);
+    private Optional<String> getInsertStatementForCell(String userId, Cell cell) {
+        return Optional.ofNullable(insertBuilderForCells.get(cell.getColumnIndex()))
+                .map(f -> f.apply(userId));
     }
     
     private Optional<Cell> getFirstCell(Row row) {

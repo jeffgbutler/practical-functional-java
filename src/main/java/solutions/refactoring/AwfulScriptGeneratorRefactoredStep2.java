@@ -2,6 +2,7 @@ package solutions.refactoring;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -52,13 +53,13 @@ public class AwfulScriptGeneratorRefactoredStep2 implements ScriptGenerator {
             }
 
             if (hasAuthority(cell)) {
-                lines.add(getInsertStatementForCell(userId, cell));
+                getInsertStatementForCell(userId, cell).ifPresent(st -> lines.add(st));
             }
         }
         return lines;
     }
 
-    private String getInsertStatementForCell(String userId, Cell cell) {
+    private Optional<String> getInsertStatementForCell(String userId, Cell cell) {
         String answer = null;
         switch (cell.getColumnIndex()) {
         case 1:
@@ -75,7 +76,7 @@ public class AwfulScriptGeneratorRefactoredStep2 implements ScriptGenerator {
             break;
         }
         
-        return answer;
+        return Optional.ofNullable(answer);
     }
     
     private boolean hasAuthority(Cell cell) {

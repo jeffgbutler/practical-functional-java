@@ -30,7 +30,7 @@ Our product owner created a spreadsheet containing information about which user 
 As you can see, the spreadsheet isn't completely consistent.  However, we did notice the following:
 
 1. If the first column of a row contains a String with a "." in the second position, then it is a row with user information
-2. If columns 2 - 5 contain an "X", then the user should have access to the application
+2. If columns B - E contain an "X", then the user should have access to the application. I don't know what's going on with column F :)
 
 We also know the column to application mappings:
 
@@ -55,13 +55,15 @@ If you get stuck along the way, the solutions for each step are in `src/main/jav
 
 2. Make Pure Functions (start with `src/main/java/exercises/refactoring/AwfulScriptGeneratorRefactored`)
 
-   - Change the `void addInsertStatementForCell(List, String, Cell)` method to `String getInsertStatementForCell(String, Cell)`
-   - Change the `void addInsertStatementsForRow(List, Row, String)` method to `List getInsertStatementsForRow(Row, String)`
+   - Change the `void addInsertStatementForCell(List, String, Cell)` method to `Optional<String> getInsertStatementForCell(String, Cell)`
+   - Change the `void addInsertStatementsForRow(List, Row, String)` method to `List getInsertStatementsForRow(Row, String)` - For now use `Optional.ifPresent` to add the statement only if it exists
    - Change the `void addInsertStatementsForRow(List, Row)` method to `List getInsertStatementsForRow(Row)`
 
 3. Look for Stream Opportunities
 
-   - Look at the `List getInsertStatementsForRow(Row, String)` method. This method skips the first cell and then generates a line if there is an authority flag.  This can easily be turned into stream operation with `skip`, `filter` and `map`.  The new method should only be one line and should return `Stream<String>`. Note: you can use the `utilities.Utils.stream` method to stream the cells from the row.  Row is Iterable, but there is no built in JDK method to turn an Iterable into a Stream. 
+   - Look at the `List getInsertStatementsForRow(Row, String)` method. This method skips the first cell and then generates a line if there is an authority flag.  This can easily be turned into stream operation with `skip`, `filter` and `map`.  The new method should only be one line and should return `Stream<String>`. Note: 
+      - You can use the `utilities.Utils.stream` method to stream the cells from the row.  Row is Iterable, but there is no built in JDK method to turn an Iterable into a Stream
+      - You can use a construct like `.filter(Optional::isPresent).map(Optional::get)` to deal with the `Optional<String>` returned from `getInsertStatementForCell`.
    - Look at the `List getInsertStatementsForRow(Row)` method.  This method returns statements for a row if there is a valid user ID, or an empty list.  We'll work on making this cleaner in the following step, but for now change the method to return `Stream<String>` and return either the stream from the method changed above, or `Stream.empty()`
    - Look at the `List generate(Sheet)` generate method.  This method can be changed to stream the rows from the Sheet, flatten all the subsequent streams, and collect the result into a list to return.  Again, use the `utilities.Utils.stream` method to stream the rows from the sheet and the new method should only be one line long.
 
@@ -88,4 +90,4 @@ If you get stuck along the way, the solutions for each step are in `src/main/jav
    - Delete the `getInsertStatement` function.  Make a `static BiFunction<String, Integer, String> insertBuilder` member variable that does the same thing as the old `getInsertStatement` method
    - Make a `static Map<Integer, Function<String, String>> insertBuilderForCells` that will contain new functions for each of the different columns in a row
    - Use a static initializer to setup the Map.  For example, `insertBuilderForCells.put(1, userId -> insertBuilder.apply(userId, 2237));`
-   - Change the `String getInsertStatementForCell(String, Cell)` method to remove the switch statement and call the functions from the map
+   - Change the `Optional<String> getInsertStatementForCell(String, Cell)` method to remove the switch statement and call the functions from the map.  You will need to check to see if the map contains a function for the row.  You can do this with a simple `if` statement, or you can wrap the returned value in an Optional and use `Optional.map`
