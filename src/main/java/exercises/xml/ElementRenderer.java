@@ -17,7 +17,7 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
 
     @Override
     public Stream<String> visit(XmlElement element) {
-        // TODO - return a stream with just the element and attributes: <foo name="fred" />
+        // TODO - return a stream with just the element and attributes: <foo name="fred"/>
         return null;
     }
     

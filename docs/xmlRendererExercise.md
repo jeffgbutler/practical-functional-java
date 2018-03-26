@@ -70,7 +70,7 @@ The goal is to make all the tests in `src/test/java/exercises/xml` pass.  You wi
    - Finishing this method should resolve one failing test.
 
 6. (M) Complete the method `exercises.xml.ElementRenderer.visit(XmlElement)`
-   - This method should return a `Stream<String>` containing just one String - the rendered `XmlElement` as something like `<foo name="value" />`.  The method is simple string concatenation with one difficulty: the element may or may not have `Attributes`.  Here's how we suggest handling this difficulty:
+   - This method should return a `Stream<String>` containing just one String - the rendered `XmlElement` as something like `<foo name="value"/>`.  The method is simple string concatenation with one difficulty: the element may or may not have `Attributes`.  Here's how we suggest handling this difficulty:
       - Create a private method `String renderAttributes(Attributes)` that returns a string composed of a single space concatenated with the results of calling the `AttributeRenderer` method from step #2 above.
       - Create another private method `String renderAttributes(XmlElement)` that returns the results of the above method if the `XmlElement` has attributes, else returns an empty string. This method should use a method reference to the method above (Hint: `Optional.map` and `Optional.orElse` are useful here)
    - Finishing these methods should resolve two failing tests.

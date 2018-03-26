@@ -31,7 +31,7 @@ public class DocumentRendererTest {
         String expected =
                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<!DOCTYPE testElement>\n"
-                + "<testElement />";
+                + "<testElement/>";
         
         assertThat(answer).isEqualTo(expected);
     }
@@ -55,7 +55,7 @@ public class DocumentRendererTest {
         String expected =
                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<!DOCTYPE testElement SYSTEM \"example.dtd\">\n"
-                + "<testElement foo=\"bar\" />";
+                + "<testElement foo=\"bar\"/>";
         
         assertThat(answer).isEqualTo(expected);
     }
@@ -80,7 +80,7 @@ public class DocumentRendererTest {
         String expected =
                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<!DOCTYPE testElement SYSTEM \"example.dtd\">\n"
-                + "<testElement foo=\"bar\" >\n"
+                + "<testElement foo=\"bar\">\n"
                 + "  some text\n"
                 + "</testElement>";
         
@@ -125,12 +125,12 @@ public class DocumentRendererTest {
         String expected =
                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<!DOCTYPE testElement PUBLIC \"-//Example//EN\" \"example.dtd\">\n"
-                + "<testElement foo=\"bar\" >\n"
+                + "<testElement foo=\"bar\">\n"
                 + "  some text\n"
-                + "  <subElement1 name=\"fred\" >\n"
+                + "  <subElement1 name=\"fred\">\n"
                 + "    more text\n"
                 + "  </subElement1>\n"
-                + "  <subElement2 />\n"
+                + "  <subElement2/>\n"
                 + "</testElement>";
         
         assertThat(answer).isEqualTo(expected);
