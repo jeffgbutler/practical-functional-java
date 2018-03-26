@@ -20,11 +20,11 @@ import utilities.Utils;
  */
 public class AwfulScriptGeneratorRefactoredStep6 implements ScriptGenerator {
 
-    private static BiFunction<String, Integer, String> insertBuilder = (userId, appId) -> 
-         "insert into ApplicationPermission(user_id, application_id) values('"
-        + userId + "', " + appId + ");";
+    private static BiFunction<String, Integer, Optional<String>> insertBuilder = (userId, appId) -> 
+        Optional.of("insert into ApplicationPermission(user_id, application_id) values('"
+                + userId + "', " + appId + ");");
 
-    private static Map<Integer, Function<String, String>> insertBuilderForCells = new HashMap<>();
+    private static Map<Integer, Function<String, Optional<String>>> insertBuilderForCells = new HashMap<>();
     
     static {
         insertBuilderForCells.put(1, userId -> insertBuilder.apply(userId, 2237));
@@ -34,7 +34,7 @@ public class AwfulScriptGeneratorRefactoredStep6 implements ScriptGenerator {
     };
 
 //    Even more concise in Java 9
-//    private static Map<Integer, Function<String, String>> insertBuilderForCells = Map.of(
+//    private static Map<Integer, Function<String, Optional<String>>> insertBuilderForCells = Map.of(
 //            1,  userId -> insertBuilder.apply(userId, 2237),
 //            2,  userId -> insertBuilder.apply(userId, 4352),
 //            3,  userId -> insertBuilder.apply(userId, 3657),
@@ -62,8 +62,22 @@ public class AwfulScriptGeneratorRefactoredStep6 implements ScriptGenerator {
     }
 
     private Optional<String> getInsertStatementForCell(String userId, Cell cell) {
-        return Optional.ofNullable(insertBuilderForCells.get(cell.getColumnIndex()))
-                .map(f -> f.apply(userId));
+        // Option 1: Use an if statement
+//        Function<String, Optional<String>> f = insertBuilderForCells.get(cell.getColumnIndex());
+//        if (f == null) {
+//            return Optional.empty();
+//        } else {
+//            return f.apply(userId);
+//        }
+
+        // Option 2: wrap the return value in an optional
+//        return Optional.ofNullable(insertBuilderForCells.get(cell.getColumnIndex()))
+//                .flatMap(f -> f.apply(userId));
+
+        // Option 3: use map.computeIfAbsent
+        return insertBuilderForCells.computeIfAbsent(cell.getColumnIndex(),
+                i -> s -> Optional.empty())   // return a function that takes String and returns an empty optional
+                .apply(userId);
     }
     
     private Optional<Cell> getFirstCell(Row row) {

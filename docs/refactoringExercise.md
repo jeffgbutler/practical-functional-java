@@ -87,7 +87,9 @@ If you get stuck along the way, the solutions for each step are in `src/main/jav
 6. Refinement part 3 - function composition
 
    We are a little bothered by the switch statement, so we're going to fix that.  This step is a bit esoteric - we will use a method composition technique and make a Map of methods for the different values in the switch statement. You may or may not think this makes the code clearer.  We're doing it to demonstrate function composition in Java, but you'll have to decide for yourself if it is appropriate in your own code.
-   - Delete the `getInsertStatement` function.  Make a `static BiFunction<String, Integer, String> insertBuilder` member variable that does the same thing as the old `getInsertStatement` method
-   - Make a `static Map<Integer, Function<String, String>> insertBuilderForCells` that will contain new functions for each of the different columns in a row
+   - Delete the `getInsertStatement` function.  Make a `static BiFunction<String, Integer, Optional<String>> insertBuilder` member variable that does the same thing as the old `getInsertStatement` method except that it wraps the string in an Optional
+   - Make a `static Map<Integer, Function<String, Optional<String>>> insertBuilderForCells` that will contain new functions for each of the different columns in a row
    - Use a static initializer to setup the Map.  For example, `insertBuilderForCells.put(1, userId -> insertBuilder.apply(userId, 2237));`
-   - Change the `Optional<String> getInsertStatementForCell(String, Cell)` method to remove the switch statement and call the functions from the map.  You will need to check to see if the map contains a function for the row.  You can do this with a simple `if` statement, or you can wrap the returned value in an Optional and use `Optional.map`
+   - Change the `Optional<String> getInsertStatementForCell(String, Cell)` method to remove the switch statement and call the functions from the map.  You will need to check to see if the map contains a function for the row.  You can do this with a simple `if` statement, or you can wrap the returned value in an Optional and use `Optional.flatMap`, or you can use the `Map.computeIfAbsent` method to return a function that returns an empty Optional.  Each of these techniques is illustrated in the solution.
+   
+   As we said, this is a bit weird :)
