@@ -21,7 +21,7 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
         return Stream.of("<"
                 + element.name()
                 + renderAttributes(element)
-                + " />");
+                + "/>");
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
         return Stream.of("<"
                 + element.name()
                 + renderAttributes(element)
-                + " >");
+                + ">");
     }
     
     private Stream<String> renderChildren(XmlElementWithChildren element) {

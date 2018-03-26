@@ -32,7 +32,7 @@ public class ElementRendererTest {
         String answer = element.accept(new ElementRenderer())
                 .collect(Collectors.joining("\n"));
         
-        assertThat(answer).isEqualTo("<testElement />");
+        assertThat(answer).isEqualTo("<testElement/>");
     }
     
     @Test
@@ -45,7 +45,7 @@ public class ElementRendererTest {
         String answer = element.accept(new ElementRenderer())
                 .collect(Collectors.joining("\n"));
         
-        assertThat(answer).isEqualTo("<testElement foo=\"bar\" />");
+        assertThat(answer).isEqualTo("<testElement foo=\"bar\"/>");
     }
 
     @Test
@@ -60,7 +60,7 @@ public class ElementRendererTest {
                 .collect(Collectors.joining("\n"));
 
         String expected =
-                  "<testElement foo=\"bar\" >\n"
+                  "<testElement foo=\"bar\">\n"
                 + "  some text\n"
                 + "</testElement>";
         
@@ -94,12 +94,12 @@ public class ElementRendererTest {
                 .collect(Collectors.joining("\n"));
 
         String expected =
-                  "<testElement foo=\"bar\" >\n"
+                  "<testElement foo=\"bar\">\n"
                 + "  some text\n"
-                + "  <subElement1 name=\"fred\" >\n"
+                + "  <subElement1 name=\"fred\">\n"
                 + "    more text\n"
                 + "  </subElement1>\n"
-                + "  <subElement2 />\n"
+                + "  <subElement2/>\n"
                 + "</testElement>";
         
         assertThat(answer).isEqualTo(expected);
