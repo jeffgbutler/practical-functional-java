@@ -10,6 +10,7 @@
 8. [Function Composition](functionCompositionOverview.html)
 9. [Refactoring Exercise](refactoringExercise.md)
 10. [Coda: Immutability](crtpOverview.html)
+11. [Extra: Kotlin](kotlin.html)
 
 # Exercises
 For all exercises, the basic instructions are "make the tests pass".  There are TODO comments in all the classes in the "exercises.*" packages with instructions on what to do. See the links above for detailed descriptions of the exercises.

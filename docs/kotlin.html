@@ -1,0 +1,234 @@
+<html>
+<head>
+<title>Practical Functional Java</title>
+<link rel="stylesheet" href="reveal.js-3.6.0/css/reveal.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/css/theme/moon.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/obsidian.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Practical Functional Java</h2>
+        <h3>Extra: Kotlin</h3>
+        <h4>Jeff Butler</h4>
+        <p>github.com/jeffgbutler/practical-functional-java</p>
+      </section>
+
+      <section>
+        <h1>Kotlin</h1>
+        <h4>Same function, Less Ceremony</h4>
+      </section>
+
+      <section>
+        <h2>Short Kotlin Overview</h2>
+        <ul>
+          <li>Created by JetBrains</li>
+          <li>An Official Language for Android Development</li> 
+          <li>An Official Language for Spring Development</li>
+          <li>Easy Interop with Java</li>
+          <li>Includes all this functional stuff we've learned</li>
+          <li>Can Run on Java 6!</li> 
+        </ul>
+      </section>
+      
+      <section>
+        <h2>Three Important Things</h2>
+        <ol>
+          <li>Immutability First</li>
+          <li>Null Safety</li>
+          <li>Extension Functions</li>
+        </ol>
+        <p>These three things alone reduce quite a lot of the boilerplate code we've just been through</p>
+      </section>
+            
+      <section>
+        <h2>Immutability, Null Safety</h2>
+        <div id="left">
+          <p style="text-align: center;">Java</p>
+          <pre>
+            <code class="java" data-trim style="max-height: 450px">
+  public class Person {
+    private String firstName;
+    private String lastName;
+                  
+    private Person(Builder builder) {
+      firstName = Objects.requireNonNull(builder.firstName);
+      lastName = Objects.requireNonNull(builder.lastName);
+      this.description = description;
+    }
+    // getters, toString, equals, etc.
+    public static class Builder {
+      private String firstName;
+      private String lastName;
+
+      public Builder withFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+      }
+      // etc...
+    }
+  }
+            </code>
+          </pre>
+        </div>
+        <div id="right">
+          <p style="text-align: center;">Kotlin</p>
+          <pre>
+            <code class="kotlin" data-trim>
+              data class Person (val firstName: String,
+                                 val lastName: String)
+            </code>
+          </pre>
+        </div>
+      </section>
+      
+      <section>
+        <h2>More on Null Safety</h2>
+        <p>Every Java reference can be null.  This requires a lot of null checking or Optional wrapping.</p>
+        <div id="left">
+          <pre>
+            <code class="java" data-trim>
+  public class Person {
+    private Address mailingAddress;
+    public Address getMailingAddress() {
+      return mailingAddress;
+    }
+  }
+
+  public class Address {
+    private String secondAddresLine;
+    public String getSecondAddressLine() {
+      return secondAddresLine;
+    }
+  }
+            </code>
+          </pre>
+        </div>
+        <div id="right">
+          <pre>
+            <code class="java" data-trim>
+  public String getSecondMailingAddress(Person person) {
+    if (person == null) {
+      return "";
+    }
+    
+    if (person.getMailingAddress() == null) {
+      return "";
+    }
+    
+    if (person.getMailingAddress().getSecondAddressLine()
+        == null) {
+      return "";
+    }
+    
+    return person.getMailingAddress().getSecondAddressLine()
+      .trim();
+  }
+  
+            </code>
+          </pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Null Safety in Kotlin</h2>
+        <p>Kotlin references can only be null if specifically declared to allow null</p>
+        <div id="left">
+          <pre>
+            <code class="kotlin" data-trim>
+  data class Person (val mailingAddress: Address?)
+
+  data class Address (val secondAddressLine: String?)
+            </code>
+          </pre>
+        </div>
+        <div id="right">
+          <pre>
+            <code class="kotlin" data-trim>
+  String getSecondMailingAddress(person: Person?) =
+    person?.mailingAddress?.secondAddressLine?.trim() ?: ""
+            </code>
+          </pre>
+        </div>
+        <ul>
+          <li>Declare a null capable type with a following ?</li>
+          <li>The <mark>?.</mark> operator is null safe navigation</li>
+          <li>The <mark>?:</mark> operator (Elvis) is null coalescing</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>The Visitor Pattern Revisited</h2>
+        <blockquote>In essence, the visitor allows adding new virtual functions
+         to a family of classes, without modifying the classes.  (wikipedia)</blockquote>
+        <p>In the XML renderer we used the visitor pattern to add a "render"
+           method to each of the XML model classes</p>
+        <p>Visitor is a very clever pattern, but hard to grasp</p>
+      </section>
+      
+      <section>
+        <h2>Kotlin Extension Functions</h2>
+        <p>Same outcome as visitor, but far simpler to understand</p>
+        <div id="left">
+          <pre>
+            <code class="kotlin" data-trim data-noescape>
+data class Attribute (val name: String, val value: String)
+
+// declare a "render" extension function
+// extension functions can be in different packages,
+// different JARs, different projects
+fun Attribute.render(): String {
+    // extension methods have access non-private
+    // attributes and methods
+
+    // this is a Kotlin string template
+    return """$name="$value" """
+}
+            </code>
+          </pre>
+        </div>
+        <div id="right">
+          <pre>
+            <code class="kotlin" data-trim>
+val att = Attribute("foo", "bar")
+
+val renderedString = att.render() // foo="bar"
+            </code>
+          </pre>
+        </div>
+      </section>
+      
+      <section>
+        <h3>Thank You!</h3>
+        <p>Please rate the session.  Suggestions for improvements are very welcome.</p>
+        <p>jeffgbutler@gmail.com</p>
+        <p>github.com/jeffgbutler</p>
+      </section>
+    </div>
+  </div>
+
+  <script src="reveal.js-3.6.0/lib/js/head.min.js"></script>
+  <script src="reveal.js-3.6.0/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+        width: '90%',
+        slideNumber: 'c/t',
+        dependencies: [
+            // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+            { src: 'reveal.js-3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+            // Syntax highlight for <code> elements
+            { src: 'reveal.js-3.6.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+            // Zoom in and out with Alt+click
+            { src: 'reveal.js-3.6.0/plugin/zoom-js/zoom.js', async: true },
+
+            // Speaker notes
+            { src: 'reveal.js-3.6.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+  </script>
+</body>
+</html>

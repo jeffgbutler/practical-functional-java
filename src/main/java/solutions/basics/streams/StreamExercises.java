@@ -30,7 +30,8 @@ public class StreamExercises {
     }
 
     public int calculateTotalOrdered(List<Order> orders, String productName) {
-        return orders.stream().flatMap(Order::getProducts)
+        return orders.stream()
+                .flatMap(Order::getProducts)
                 .filter(p -> p.getProductName().equals(productName))
                 .mapToInt(Product::getQuantity)
                 .sum();
