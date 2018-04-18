@@ -20,15 +20,15 @@ Install Extension "Java Extension Pack" from Microsoft. This installs for extens
 
 2. Debugger for Java by Microsoft
 
-   This extension allows you to set break points in code and 
+   This extension allows you to set break points in code and create debug launch configurations.
 
 3. Java Test Runner by Microsoft
 
-   This extension will show a "Test Explorer" window when any Java file is open.
+   This extension will show a "Test Explorer" window when any Java file is open. From the test explorer you can run any/all unit tests.
 
 4. Maven for Java by Microsoft
 
-   THis extension will show a "Maven Projects" window where you can run various maven goals
+   This extension will show a "Maven Projects" window where you can run various maven goals.
 
 ## Basic Java Support
 
@@ -63,3 +63,19 @@ consolidated settings to share among all the projects.
 6. Build your WAR project with Maven, then add the WAR to the server
 7. Breakpoints, step into, etc.
 
+## Spring Boot
+
+1. Install Extension "Spring Initializr Java Support" from Microsoft
+2. Use command "Spring Initializr: Generate a Maven Project"
+3. Here's a simple rest controller you can use to test...
+
+```java
+@RestController
+public class MyController {
+
+    @RequestMapping("/hello")
+    public String index() {
+        return "hello world!";
+    }
+}
+```
