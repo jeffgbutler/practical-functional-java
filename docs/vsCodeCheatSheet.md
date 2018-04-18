@@ -2,10 +2,10 @@
 
 ## Installing
 
-1. Install VS Code from https://code.visualstudio.com/
-2. Install Git from https://git-scm.com/
-3. Install a JDK from http://www.oracle.com/technetwork/java/javase/downloads/index.html
-4. Download and unzip Maven from http://maven.apache.org/
+1. Install VS Code from [https://code.visualstudio.com/](https://code.visualstudio.com/)
+2. Install Git from [https://git-scm.com/](https://git-scm.com/)
+3. Install a JDK from [http://www.oracle.com/technetwork/java/javase/downloads/index.html](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+4. Download and unzip Maven from [http://maven.apache.org/](http://maven.apache.org/)
 
 ## Basic Configuration
 
@@ -34,16 +34,16 @@ Install Extension "Java Extension Pack" from Microsoft. This installs for extens
 
 If you don't hava JAVA_HOME set, and don't have Maven in your path, then add the following workspace settings:
 
-   * "java.home": "C:\\Program Files\\Java\\jdk-9.0.4"
+   * "java.home": "C:\\\\Program Files\\\\Java\\\\jdk-9.0.4"
    * "maven.terminal.useJavaHome": true
-   * "maven.executable.path": "C:\\JavaTools\\apache-maven-3.3.9\\bin\\mvn.cmd"
+   * "maven.executable.path": "C:\\\\JavaTools\\\\apache-maven-3.3.9\\\\bin\\\\mvn.cmd"
 
 If you have unit tests, then they can be run from the test explorer window, or directly from within the code.
 
 If you want to run a class with a main method, then you need to add a launch configuration:
 
 1. F5 in the class with the main meathod - should open launch.json
-2. Press "Add COnfiguration..." and select "Java: Launch Program"
+2. Press "Add Configuration..." and select "Java: Launch Program"
 3. Fill in fully qualified name of your main class
 4. Remove any other launch configuration
 5. F5 again will run program and you can set breakpoints, step, etc.
@@ -56,7 +56,7 @@ consolidated settings to share among all the projects.
 ## Tomcat Debugging
 
 1. Install Extension "Tomcat for Java"
-2. Download and unzip Tomcat from http://tomcat.apache.org/
+2. Download and unzip Tomcat from [http://tomcat.apache.org/](http://tomcat.apache.org/)
 3. Must have JAVA_HOME set to a JDK  (grrr)
 4. Must have %JAVA_HOME%\bin in the path (grrr)
 5. Open VS Code, add define the server in the "Tomcat Servers" window
