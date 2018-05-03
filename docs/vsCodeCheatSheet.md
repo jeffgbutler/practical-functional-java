@@ -9,7 +9,7 @@
 
 ## Basic Configuration
 
-Install Extension "Java Extension Pack" from Microsoft. This installs for extensions:
+Install Extension "Java Extension Pack" from Microsoft. This installs four extensions:
 
 1. Language Support for Java by RedHat
    
@@ -24,7 +24,7 @@ Install Extension "Java Extension Pack" from Microsoft. This installs for extens
 
 3. Java Test Runner by Microsoft
 
-   This extension will show a "Test Explorer" window when any Java file is open. From the test explorer you can run any/all unit tests.
+   This extension will show a "Test Explorer" window when any Java file is open. From the test explorer you can run any/all unit tests. This extension also adds "run test", "debug test", etc. links within the test Java files.
 
 4. Maven for Java by Microsoft
 
@@ -50,8 +50,13 @@ If you want to run a class with a main method, then you need to add a launch con
 
 ## Multi-Root Workspace
 
-Project with multiple Maven components can be setup as multi-root workspace projects.  This will allow you to create one set of
-consolidated settings to share among all the projects.
+Projects with multiple Maven components can be setup as multi-root workspace projects.  This will allow you to create one set of consolidated settings to share among all the projects.
+
+Add the different Maven root folders to the workspace with File -> Add Folder to Workspace
+
+Once you do this, you can set properties like "java.home" for the entire workspace, rather then for each individual project.  This will create a *.code-workspace file that you will need to save somewhere convenient.
+
+One limitation of this support is that VS Code Maven support will not understand the dependencies between the projects automatically.  For example, suppose you have WAR project A that depends on library B. If you make a change in B, you will need to rebuild B (with mvn clean install) and then rebuild A.
 
 ## Tomcat Debugging
 
