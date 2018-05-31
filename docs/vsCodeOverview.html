@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>Practical Functional Java</title>
+<link rel="stylesheet" href="reveal.js-3.6.0/css/reveal.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/css/theme/moon.css">
+<link rel="stylesheet" href="reveal.js-3.6.0/lib/css/obsidian.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Visual Studio Code for Java Development</h2>
+        <h4>Jeff Butler</h4>
+        <p>https://github.com/jeffgbutler/practical-functional-java</p>
+        <p>https://jeffgbutler.github.io/practical-functional-java/</p>
+      </section>
+
+      <section>
+        <h3>Microsoft and Java?</h3>
+        <ul>
+          <li>It's a new world</li>
+          <li>Microsoft has embraced open source</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>VS Code</h3>
+        <ul>
+          <li>Based on Electron</li>
+          <li>Written in TypeScript/Node.js</li>
+          <li>Project Headed by Erich Gamma (GoF, Eclipse, etc.)</li>
+          <li>Open Source on GitHub</li>
+          <li>Configured and extended through Extensions (plugins)</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>Basic Setup</h3>
+          <p>This is my setup for today...</p>
+          <ul>
+            <li>Install VS Code from https://code.visualstudio.com/</li>
+            <li>Install Git from https://git-scm.com/</li>
+            <li>Install a JDK from http://java.oracle.com/</li>
+            <li>Download and unzip Maven from http://maven.apache.org/</li>
+            <li>Download and unzip Tomcat from http://tomcat.apache.org/</li>
+            <li>Set JAVA_HOME, and add JAVA_HOME/bin to the path</li>
+          </ul>
+      </section>
+      
+      <section>
+        <h3>How does it work?</h3>
+        <ul>
+          <li>It's Eclipse under the covers</li>
+          <li>RedHat implemented a Language Server for Java, using Eclipse</li>
+          <li>github.com/Microsoft/language-server-protocol</li>
+          <li>Language server is an interface for
+            <ul>
+              <li>Intellisense</li>
+              <li>Basic Refactorings</li>
+              <li>etc.</li>
+            </ul>
+          </li>
+          <li>Many of the extensions simply call out to the shell</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>What We'll See</h3>
+        <ul>
+          <li>Intellisense, Code Lens in Java Code</li>
+          <li>JUnit Support</li>
+          <li>Debug Java Code</li>
+          <li>Spring Boot Support</li>
+          <li>Tomcat Support</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>What's Missing?</h3>
+        <ul>
+          <li>Full refactoring</li>
+          <li>Wizards - new class, new interface, etc.</li>
+          <li>Good integration between the different extension (all 0.x versions currently)</li>
+          <li>Feels a little like the early days of hacking Eclipse - takes a lot of setup</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h3>Live Demo</h3>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="reveal.js-3.6.0/lib/js/head.min.js"></script>
+  <script src="reveal.js-3.6.0/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+        slideNumber: 'c/t',
+        dependencies: [
+            // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+            { src: 'reveal.js-3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+            // Syntax highlight for <code> elements
+            { src: 'reveal.js-3.6.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+            // Zoom in and out with Alt+click
+            { src: 'reveal.js-3.6.0/plugin/zoom-js/zoom.js', async: true },
+
+            // Speaker notes
+            { src: 'reveal.js-3.6.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+  </script>
+</body>
+</html>
