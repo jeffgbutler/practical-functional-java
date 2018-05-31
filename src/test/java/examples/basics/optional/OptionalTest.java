@@ -10,6 +10,21 @@ import org.junit.Test;
 
 public class OptionalTest {
 
+    @Test
+    public void testCreatingOptionals() {
+        Optional<String> name = Optional.of("Fred"); // value must be non-null
+        assertThat(name.isPresent()).isTrue();
+
+        name = Optional.ofNullable("Fred");  // value may be null
+        assertThat(name.isPresent()).isTrue();
+
+        name = Optional.ofNullable(null);
+        assertThat(name.isPresent()).isFalse();
+
+        name = Optional.empty();  // always empty
+        assertThat(name.isPresent()).isFalse();
+    }
+    
     // the map method is used to transform an optional if it exists
     @Test
     public void testOptionalMap() {
