@@ -13,7 +13,8 @@ public class StreamExercises {
     
     // return a string like Fred ordered 1 Baseball and 1 glove
     public String calculateOrderSummary(List<Order> orders) {
-        return orders.stream().map(this::toOrderSummary)
+        return orders.stream()
+                .map(this::toOrderSummary)
                 .collect(Collectors.joining("\n"));
     }
     
