@@ -1,5 +1,7 @@
 ## Setup
 
+The following instructions will help you install a Java development environment from scratch. If you already have a Java/Maven/Git environment installed that you are familiar with, then you can simply clone the repository and work in your existing environment.
+
 Note: If you experience difficulties building the projects after following these instructions, see the Maven Notes section at the bottom of this page.
 
 ### For all Environments
@@ -11,7 +13,7 @@ Install and configure Java, Maven, and Git. Some of these steps are optional dep
 3. Install Git from [https://git-scm.com/](https://git-scm.com/)
 
 #### Configure
-You will need to configure some environment variables for the tools to work properly. There are a variety of ways to do this.
+You will need to configure some environment variables for the tools to work properly. There are a variety of ways to do this. If you are on Windows, then the easiest way to do this is to use the control panel applet to edit environment variables. We suggest you make these changes to the "user" environment variables and not the "system" environment variables.
 
 | Environment Variable | Setting |
 |----------------------|---------|
@@ -20,7 +22,7 @@ You will need to configure some environment variables for the tools to work prop
 | PATH | Add %M2_HOME%\bin to the PATH |
 
 ## Setup for Eclipse
-1. Install Eclipse from [http://www.eclipse.org/downloads/](http://www.eclipse.org/downloads/)
+1. Install Eclipse from [http://www.eclipse.org/downloads/](http://www.eclipse.org/downloads/) - for these exercises the "Eclipse IDE for Java Developers" package is sufficient. If you plan on using Eclipse for web development in the future, then we recommend installing the "Eclipse IDE for Java EE Developers" package
 2. Clone the repository from [https://github.com/jeffgbutler/practical-functional-java.git](https://github.com/jeffgbutler/practical-functional-java.git), or download the zip from [https://github.com/jeffgbutler/practical-functional-java/archive/master.zip](https://github.com/jeffgbutler/practical-functional-java/archive/master.zip)
 3. Open Eclipse, make a new workspace
 4. (Optional) Install the Infinitest plugin from the Eclipse marketplace if you want the tests to run automatically
