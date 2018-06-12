@@ -74,9 +74,9 @@ public class AwfulScriptGeneratorRefactoredStep6 implements ScriptGenerator {
 //        return Optional.ofNullable(insertBuilderForCells.get(cell.getColumnIndex()))
 //                .flatMap(f -> f.apply(userId));
 
-        // Option 3: use map.computeIfAbsent
-        return insertBuilderForCells.computeIfAbsent(cell.getColumnIndex(),
-                i -> s -> Optional.empty())   // return a function that takes String and returns an empty optional
+        // Option 3: use Map.getOrDefault
+        return insertBuilderForCells.getOrDefault(cell.getColumnIndex(),
+                s -> Optional.empty())   // return a function that takes String and returns an empty optional
                 .apply(userId);
     }
     
